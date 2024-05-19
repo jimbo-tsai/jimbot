@@ -24,12 +24,6 @@ url = "/films/"
 weight = 20
 
 [[languages.en.menu.main]]
-identifier = "aboutme"
-name = "About"
-url = "/aboutme/"
-weight = 30
-
-[[languages.en.menu.main]]
 identifier = "tags"
 name = "Tags"
 url = "/tags/"
