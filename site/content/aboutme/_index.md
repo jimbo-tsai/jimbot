@@ -3,10 +3,7 @@ description: "Student filmmaker based in the Bay Area"
 title: "About Me"
 ---
 
-
-
-## Contacts
-<div class="column-gap-2 d-flex display-6 justify-content-center mb-3">
+<div class="column-gap-1 d-flex display-6 justify-content-center mb-3">
     {{<paige/icon class="bi bi-youtube" title="youtube" url="https://www.youtube.com/channel/UCQulP0uyasw93322XVnpvZQ" >}}
 </div>
 
