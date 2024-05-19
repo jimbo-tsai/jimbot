@@ -2,3 +2,4 @@
 site/public
 site/resources
 public
+.DS_Store
