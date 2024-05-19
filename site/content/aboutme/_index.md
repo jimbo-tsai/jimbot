@@ -1,5 +1,5 @@
 ---
-description: "Student filmmaker based in the Bay Area"
+description: "Taiwanese-American based in the Bay Area"
 title: "About Me"
 ---
 
