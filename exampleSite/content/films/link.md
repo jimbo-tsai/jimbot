@@ -1,3 +1,4 @@
+<!--
 ---
 authors: ["will-faught"]
 categories: ["content", "paige"]
@@ -10,3 +11,4 @@ weight: 80
 ---
 
 It takes you to the home page.
+--> 

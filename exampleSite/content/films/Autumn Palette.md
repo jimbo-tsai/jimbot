@@ -1,15 +1,15 @@
+
 ---
-authors: ["will-faught"]
 categories: ["content", "paige"]
-date: "2023-09-18T21:33:24-07:00"
-description: "A brief description of Hugo Shortcodes."
-paige:
-  feed:
-    hide_page: true
-tags: ["shortcodes", "privacy"]
-title: "Rich Content"
-weight: 20
+date: "2023-09-18T21:32:40-07:00"
+description: "Short film of a journey through Californian fall colors."
+tags: ["emoji"]
+title: "Autumn Palette"
+weight: 11
 ---
+{{< paige/youtube "JX5NuzyEhmg" >}}
+
+> Yosemite and Mammoth Lakes
 
 <!--
 The MIT License (MIT)
@@ -34,27 +34,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
-
-Hugo ships with several [Built-in Shortcodes](https://gohugo.io/content-management/shortcodes/#use-hugos-built-in-shortcodes) for rich content, along with a [Privacy Config](https://gohugo.io/about/hugo-and-gdpr/) and a set of Simple Shortcodes that enable static and no-JS versions of various social media embeds.
-<!--more-->
----
-
-## YouTube Privacy Enhanced Shortcode
-
-{{< youtube ZJthWmvUzzc >}}
-
-<br>
-
----
-
-## Twitter Simple Shortcode
-
-{{< twitter_simple user="DesignReviewed" id="1085870671291310081" >}}
-
-<br>
-
----
-
-## Vimeo Simple Shortcode
-
-{{< vimeo_simple 48912912 >}}

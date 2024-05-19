@@ -22,7 +22,7 @@ features = [
   "social links",
   "twitter sharing"
 ]
-homepage = "https://github.com/willfaught/paige"
+homepage = "https://github.com/jimbo-tsai"
 license = "MIT"
 licenselink = "https://www.apache.org/licenses/LICENSE-2.0"
 name = "Paige"
@@ -30,7 +30,7 @@ tags = [
   "blog",
   "bootstrap",
   "contact",
-  "dark",
+  "blue",
   "dark mode",
   "gallery",
   "hero",
@@ -43,6 +43,4 @@ tags = [
   "responsive"
 ]
 
-[author]
-homepage = "https://willfaught.com"
-name = "Will Faught"
+

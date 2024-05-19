@@ -1,3 +1,4 @@
+<!--
 ---
 authors: ["will-faught"]
 categories: ["content", "paige"]
@@ -20,3 +21,4 @@ paige:
     message: "Get more information <a href=\"#\" class=\"alert-link\">here</a>."
     type: "danger"
 ```
+-->

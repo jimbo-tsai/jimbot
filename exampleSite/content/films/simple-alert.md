@@ -1,3 +1,4 @@
+<!--
 ---
 authors: ["will-faught"]
 categories: ["content", "paige"]
@@ -9,7 +10,8 @@ tags: ["alerts"]
 title: "Simple Alert"
 weight: 60
 ---
-
+-->
+<!-->
 This page has the following parameters:
 
 ```yaml

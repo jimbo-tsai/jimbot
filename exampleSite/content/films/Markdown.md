@@ -1,11 +1,12 @@
+<!--
 ---
 authors: ["will-faught"]
 categories: ["content", "paige"]
 date: "2023-09-18T21:32:52-07:00"
-description: "Sample article showcasing basic Markdown syntax and formatting for HTML elements."
+description: "KAKJAKAKSKLSLK"
 tags: ["markdown", "css", "html"]
-title: "Markdown Syntax Guide"
-weight: 10
+title: "Markdown"
+weight: 15
 ---
 
 <!--
@@ -34,7 +35,7 @@ SOFTWARE.
 
 This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.
 <!--more-->
-
+<!-->
 ## Headings
 
 The following HTML `<h2>`—`<h6>` elements represent five levels of section headings. `<h2>` is the highest section level while `<h6>` is the lowest.

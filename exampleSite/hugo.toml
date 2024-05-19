@@ -1,5 +1,5 @@
 baseurl = "https://example.com"
-copyright = "© Will Faught"
+# copyright = "Will Faught© "
 enablerobotstxt = true
 languagecode = "en-us"
 paginate = 50
@@ -17,46 +17,52 @@ url = "/"
 weight = 10
 
 [[languages.en.menu.main]]
-identifier = "content"
-name = "Content"
-url = "/content/"
+identifier = "films"
+name = "Films"
+url = "/films/"
 weight = 20
 
 [[languages.en.menu.main]]
-identifier = "layouts"
-name = "Layouts"
-url = "/layouts/"
+identifier = "aboutme"
+name = "About"
+url = "/aboutme/"
 weight = 30
 
-[[languages.en.menu.main]]
-identifier = "shortcodes"
-name = "Shortcodes"
-url = "/shortcodes/"
-weight = 40
+# [[languages.en.menu.main]]
+# identifier = "layouts"
+# name = "Layouts"
+# url = "/layouts/"
+# weight = 30
 
-[[languages.en.menu.main]]
-identifier = "customization"
-name = "Customization"
-url = "/customization/"
-weight = 50
+# [[languages.en.menu.main]]
+# identifier = "shortcodes"
+# name = "Shortcodes"
+# url = "/shortcodes/"
+# weight = 40
 
-[[languages.en.menu.main]]
-identifier = "authors"
-name = "Authors"
-url = "/authors/"
-weight = 60
+# [[languages.en.menu.main]]
+# identifier = "customization"
+# name = "Customization"
+# url = "/customization/"
+# weight = 50
 
-[[languages.en.menu.main]]
-identifier = "series"
-name = "Series"
-url = "/series/"
-weight = 70
+# [[languages.en.menu.main]]
+# identifier = "authors"
+# name = "Authors"
+# url = "/authors/"
+# weight = 60
 
-[[languages.en.menu.main]]
-identifier = "categories"
-name = "Categories"
-url = "/categories/"
-weight = 80
+# [[languages.en.menu.main]]
+# identifier = "series"
+# name = "Series"
+# url = "/series/"
+# weight = 70
+
+# [[languages.en.menu.main]]
+# identifier = "categories"
+# name = "Categories"
+# url = "/categories/"
+# weight = 80
 
 [[languages.en.menu.main]]
 identifier = "tags"
@@ -64,11 +70,11 @@ name = "Tags"
 url = "/tags/"
 weight = 90
 
-[[languages.en.menu.main]]
-identifier = "search"
-name = "Search"
-url = "/search/"
-weight = 100
+# [[languages.en.menu.main]]
+# identifier = "search"
+# name = "Search"
+# url = "/search/"
+# weight = 100
 
 [markup.goldmark.renderer]
 unsafe = true
@@ -97,8 +103,13 @@ name = "Will Faught"
 url = "https://willfaught.com/paige"
 
 [params.paige]
-site_title = "Paige"
-site_description = "Powerful, pliable pixel perfection"
+# site_title = "Jimmy Tsai"
+# site_description = "Jimmy Tsai"
+color = "#f3a400" # Bootstrap primary color and theme color for Safari and Windows
+color_scheme = "light" # Must be "auto", "dark", or "light"
+external_link_new_tab = false # Open external links in new tabs
+math = false # Enable math typesetting
+style = "" # CSS included at the end of the stylesheet, before style-last.css
 
 [params.paige.git]
 commit_url = "https://github.com/willfaught/paige/commit/%s"
