@@ -11,6 +11,8 @@ weight: 11
 
 > Yosemite and Mammoth Lakes
 
+{{< paige/gallery width="40rem" class="rounded-5" images="*.jpg"  />}}
+
 <!--
 The MIT License (MIT)
 
