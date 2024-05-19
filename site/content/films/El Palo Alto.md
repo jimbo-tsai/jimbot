@@ -34,9 +34,7 @@ SOFTWARE.
 
 {{< paige/youtube "oxVR8Ficvj8" >}}
 
-> In the quiet suburbs of Palo Alto lies a redwood tree that defines the city, community, and culture. Though it once towered over the valley, it now sits hidden to many.
-
->Check out the [article](https://www.paloaltoonline.com/community/2024/05/14/its-health-has-been-neglected-local-teen-creates-documentary-on-palo-altos-most-famous-tree/)! 
+> In the quiet suburbs of Palo Alto lies a redwood tree that defines the city, community, and culture. Though it once towered over the valley, it now sits hidden to many. Check out the [article](https://www.paloaltoonline.com/community/2024/05/14/its-health-has-been-neglected-local-teen-creates-documentary-on-palo-altos-most-famous-tree/)! 
 
 * **Filmed, Edited, and Produced by** 
     * Jimmy Tsai

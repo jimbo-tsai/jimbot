@@ -19,7 +19,8 @@ title: "Jimmy Tsai"
 <div class="container-fluid">
     <div class="justify-content-center row">
         <div class="col col-auto col-lg-7 px-0">
-            <p class="lead text-center"></p>
+            <p class="lead text-center">Filmmaker. Engineer. Artist. </p>
+            <p class="lead text-center">I'm a student at Paly and I like making films and art in my free time. You can catch me practicing cinematography most of the time. Check out some of my work. </p>
         </div>
     </div>
 </div>
@@ -28,8 +29,9 @@ title: "Jimmy Tsai"
 <p class="text-center">
     <a class="lead" href="https://github.com/jimbo-tsai">Get started!</a>
 </p>
--->
+
 
 <div class="column-gap-3 d-flex display-6 justify-content-center mb-3">
     {{< paige/icon class="bi bi-github" title="GitHub" url="https://github.com/jimbo-tsai" >}}
 </div>
+-->

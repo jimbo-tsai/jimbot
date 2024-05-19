@@ -24,10 +24,10 @@ url = "/films/"
 weight = 20
 
 [[languages.en.menu.main]]
-identifier = "tags"
-name = "Tags"
-url = "/tags/"
-weight = 90
+identifier = "aboutme"
+name = "About"
+url = "/aboutme/"
+weight = 30
 
 [markup.goldmark.renderer]
 unsafe = true
