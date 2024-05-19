@@ -1,5 +1,6 @@
-baseurl = "https://example.com"
-# copyright = "Will Faught© "
+baseurl = "https://jimbo-tsai.github.io/jimbot/"
+copyright = "Jimmy Tsai ©"
+
 enablerobotstxt = true
 languagecode = "en-us"
 paginate = 50
@@ -7,7 +8,7 @@ timezone = "America/Los_Angeles"
 titlecasestyle = "Go"
 
 [languages.en]
-title = "Paige"
+title = "Jimmy Tsai"
 weight = 10
 
 [[languages.en.menu.main]]
@@ -28,53 +29,11 @@ name = "About"
 url = "/aboutme/"
 weight = 30
 
-# [[languages.en.menu.main]]
-# identifier = "layouts"
-# name = "Layouts"
-# url = "/layouts/"
-# weight = 30
-
-# [[languages.en.menu.main]]
-# identifier = "shortcodes"
-# name = "Shortcodes"
-# url = "/shortcodes/"
-# weight = 40
-
-# [[languages.en.menu.main]]
-# identifier = "customization"
-# name = "Customization"
-# url = "/customization/"
-# weight = 50
-
-# [[languages.en.menu.main]]
-# identifier = "authors"
-# name = "Authors"
-# url = "/authors/"
-# weight = 60
-
-# [[languages.en.menu.main]]
-# identifier = "series"
-# name = "Series"
-# url = "/series/"
-# weight = 70
-
-# [[languages.en.menu.main]]
-# identifier = "categories"
-# name = "Categories"
-# url = "/categories/"
-# weight = 80
-
 [[languages.en.menu.main]]
 identifier = "tags"
 name = "Tags"
 url = "/tags/"
 weight = 90
-
-# [[languages.en.menu.main]]
-# identifier = "search"
-# name = "Search"
-# url = "/search/"
-# weight = 100
 
 [markup.goldmark.renderer]
 unsafe = true
@@ -112,7 +71,7 @@ math = false # Enable math typesetting
 style = "" # CSS included at the end of the stylesheet, before style-last.css
 
 [params.paige.git]
-commit_url = "https://github.com/willfaught/paige/commit/%s"
+commit_url = "https://github.com/jimbo-tsai/jimbot/commit/%s"
 
 [[params.paige.feed.atom.authors]]
 email = "will.faught@example.com"
@@ -126,7 +85,7 @@ web_master = "will.faught@example.com (Will Faught)"
 [params.paige.file_link]
 content = "Edit this page"
 disable = true
-url = "https://github.com/willfaught/paige/edit/master/exampleSite/content/%s"
+url = "https://github.com/jimbo-tsai/jimbot/edit/main/site/content/%s"
 
 [taxonomies]
 author = "authors"

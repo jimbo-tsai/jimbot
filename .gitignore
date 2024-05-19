@@ -1,4 +1,4 @@
 .hugo_build.lock
-exampleSite/public
-exampleSite/resources
+site/public
+site/resources
 public
