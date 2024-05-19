@@ -47,22 +47,5 @@ SOFTWARE.
 
 
 
-
-<p>
-{{< paige/image class="rounded-4" maxheight="20rem" src="https://github.com/jimbo-tsai/jimbot/blob/main/site/images/first%20cut%20saved%20version%20Copy%2001.00_02_11_04.Still003.png?raw=true" >}}
- 
-{{< paige/image class="rounded-4" maxheight="20rem" src="https://github.com/jimbo-tsai/jimbot/blob/main/site/images/first%20cut%20saved%20version%20Copy%2001.00_04_02_02.Still005.png?raw=true" >}}
-<p>
-<p>
-{{< paige/image class="rounded-4" maxheight="20rem" src="https://github.com/jimbo-tsai/jimbot/blob/main/site/images/first%20cut%20saved%20version%20Copy%2001.00_10_04_19.Still008.png?raw=true" >}}
- 
-{{< paige/image class="rounded-4" maxheight="20rem" src="https://github.com/jimbo-tsai/jimbot/blob/main/site/images/first%20cut%20saved%20version%20Copy%2001.00_14_45_19.Still006.png?raw=true" >}}
-<p>
-<p>
-{{< paige/image class="rounded-4" maxheight="20rem" src="https://github.com/jimbo-tsai/jimbot/blob/main/site/images/first%20cut%20saved%20version%20Copy%2001.00_16_49_02.Still004.png?raw=true" >}}
- 
-{{< paige/image class="rounded-4" maxheight="20rem" src="https://github.com/jimbo-tsai/jimbot/blob/main/site/images/first%20cut%20saved%20version%20Copy%2001.00_17_10_11.Still001.png?raw=true" >}}
-
-</p>
-
+{{< paige/gallery width="40rem" class="rounded-5" images="*.png"  />}}
 
