@@ -22,7 +22,7 @@ title: "Jimmy Tsai"
     <div class="justify-content-center row">
         <div class="col col-auto col-lg-7 px-0">
             <p class="lead text-center">Filmmaker. Engineer. Artist. </p>
-            <p class="lead text-center">A student at Palo Alto High School making films and art in my free time. You can catch me practicing cinematography most of the time. Check out some of my work. </p>
+            <p class="lead text-center">A student at Palo Alto High School making films and art in his free time. You can catch me practicing cinematography most of the time. Check out some of my work. </p>
         </div>
     </div>
 </div>
