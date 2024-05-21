@@ -30,6 +30,12 @@ url = "/drawings/"
 weight = 21
 
 [[languages.en.menu.main]]
+identifier = "paintings"
+name = "Paintings"
+url = "/paintings/"
+weight = 22
+
+[[languages.en.menu.main]]
 identifier = "aboutme"
 name = "About"
 url = "/aboutme/"
