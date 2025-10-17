@@ -18,6 +18,16 @@ url = "/"
 weight = 10
 
 [[languages.en.menu.main]]
+identifier = "galleries"
+name = "Galleries"
+url = "/galleries/"
+weight = 15
+
+
+
+
+
+[[languages.en.menu.main]]
 identifier = "films"
 name = "Films"
 url = "/films/"
@@ -36,12 +46,16 @@ url = "/paintings/"
 weight = 22
 
 
-
 [[languages.en.menu.main]]
 identifier = "aboutme"
 name = "About"
 url = "/aboutme/"
-weight = 50
+weight = 11
+
+
+
+
+
 
 [markup.goldmark.renderer]
 unsafe = true
