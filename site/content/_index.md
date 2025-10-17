@@ -16,13 +16,13 @@ title: "Jimmy Tsai"
 
 ####
 
-<p class="display-5 fw-bold mb-2 text-center">Hi, Jimmy Tsai here</p>
+<p class="display-5 fw-bold mb-2 text-center">Hi, Jimmy Tsai here.</p>
 
 <div class="container-fluid">
     <div class="justify-content-center row">
         <div class="col col-auto col-lg-7 px-0">
-            <p class="lead text-center">Filmmaker. Engineer. Artist. </p>
-            <p class="lead text-center">A student at Palo Alto High School making films and art in his free time. You can catch me practicing cinematography most of the time. Check out some of my work. </p>
+            <p class="lead text-center">Photagrapher. Engineer. Filmmaker. </p>
+            <p class="lead text-center">A student at Northwestern University taking photos and making films in his free time. You'll catch him squatting in random places looking for the perfect angle. Check out some of his work. </p>
         </div>
     </div>
 </div>

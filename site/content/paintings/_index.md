@@ -5,4 +5,4 @@ title: "Paintings"
 
 {{< paige/gallery width="20rem" class="rounded-5" images="*.jpg"  />}}
 
-{{< paige/gallery width="30rem" class="rounded-5" images="*.jpeg"  />}}
+{{< paige/gallery width="60rem" class="rounded-5" images="paintings_8.jpeg"  />}}

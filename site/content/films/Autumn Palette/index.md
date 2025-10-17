@@ -9,7 +9,7 @@ weight: 11
 ---
 {{< paige/youtube "JX5NuzyEhmg" >}}
 
-> Yosemite and Mammoth Lakes
+> A trip through Yosemite and Mammoth Lakes during the yellow fall.
 
 {{< paige/gallery width="40rem" class="rounded-5" images="*.jpg"  />}}
 
