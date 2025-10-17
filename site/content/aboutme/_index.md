@@ -1,5 +1,5 @@
 ---
-description: "Jimmy Tsai is a Taiwanese-American based in the Bay Area and Chicago. Photography and filmmaking are his dreams as he studies his engineering degree. He mainly does street photography, but he's down for any project, big or small. Contact him on Instagram or email."
+description: "Jimmy Tsai is a Taiwanese-American based in the Bay Area and Chicago. Photography and filmmaking are his dreams as he studies his engineering degree. He mainly does street photography, but he's down for any project, big or small. Contact him through email or on Instagram."
 title: "About Jimmy"
 ---
 
