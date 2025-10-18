@@ -10,12 +10,13 @@ paige:
         display: none;
     }
 title: "Jimmy Tsai"
+date: "2025-10-18T11:05:00-56:00"
 ---
 
 <div style="display: flex; gap: 3rem; align-items: center; justify-content: center; max-width: 1200px; margin: 0 auto;">
 
 <div style="flex-shrink: 0;">
-{{% paige/image alt="Landscape" breakpoints=true class="object-fit-cover rounded-4" fetchpriority="high" loading="eager" process="webp" src="*.jpg" width="30rem" %}}
+{{% paige/image alt="Landscape" breakpoints=true class="object-fit-cover rounded-4" fetchpriority="high" loading="eager" process="webp" src="*.jpg" width="40vw" %}}
 </div>
 
 <div style="flex-grow: 1; max-width: 600px;">

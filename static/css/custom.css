@@ -1,0 +1,29 @@
+/* Custom CSS for fixed-size modal to prevent shifting */
+
+/* 1. Fix the height of the modal dialog container */
+.modal-fixed-height {
+    /* Set a consistent max height for the modal container (e.g., 90% of viewport height) */
+    max-height: 90vh !important;
+}
+
+/* Ensure the carousel inner structure adheres to the fixed height */
+.modal-fixed-height .carousel {
+    /* Subtract space needed for modal header/footer/padding/caption */
+    max-height: calc(90vh - 120px); 
+    height: 100%;
+    overflow: hidden; 
+}
+
+/* 2. Style images to fit within the fixed carousel height without stretching */
+.modal-fixed-height .carousel-inner {
+    height: 100%;
+}
+
+.img-fixed-fit {
+    /* Set the image height to fill the carousel area while maintaining aspect ratio */
+    max-height: 100%; 
+    height: auto; 
+    width: auto; 
+    display: block; 
+    margin: auto; /* Center the image horizontally */
+}

@@ -1,6 +1,7 @@
 ---
 description:
 title: "About Jimmy"
+date: "2025-10-18T11:03:00-05:00"
 ---
 
 
@@ -13,7 +14,7 @@ title: "About Jimmy"
 
 <div style="max-width: 600px; margin-left: auto; margin-right: auto; text-align: justify;">
 
-<p>Jimmy Tsai is a Taiwanese-American based in the Bay Area and Chicago. Photography and filmmaking are his dreams as he studies his engineering degree. He mainly does street photography, but he's down for any project, big or small. Contact him through email or on Instagram.</p>
+<p>Jimmy Tsai is a Taiwanese-American based in the Bay Area and Chicago. Photography and filmmaking are his creative release as he studies his engineering degree. He mainly does street photography, but he's down for any project, big or small. Contact him through email or on Instagram.</p>
 
 </div>
 
