@@ -13,4 +13,4 @@ Thanks to the Daily Northwestern for the opportunity.</p>
 
 </div>
 
-{{< paige/gallery width="40rem"  images="*.jpg"  />}}
+{{< paige/gallery width="40rem"  images="*.jpg" loading="lazy" />}}
