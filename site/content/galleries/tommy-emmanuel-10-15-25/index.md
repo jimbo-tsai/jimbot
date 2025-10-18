@@ -1,6 +1,6 @@
 ---
 categories: ["content", "paige"]
-date: "2025-10-18T11:08:00-56:00"
+date: "2025-10-18T11:08:00-05:00"
 title: "Tommy Emmanuel"
 weight: 11
 ---
@@ -14,7 +14,3 @@ weight: 11
 <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: flex-start;">
     {{< modal-gallery width="40vw" images="*.jpg" loading="lazy" quality="70">}}
 </div>
-
-{{< paige/gallery width="40rem" class="rounded-5" images="*.jpg"  />}}
-
-balls
