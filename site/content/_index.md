@@ -12,20 +12,26 @@ paige:
 title: "Jimmy Tsai"
 ---
 
-{{% paige/image alt="Landscape" breakpoints=true class="object-fit-cover rounded-4 shadow-lg" fetchpriority="high" height="20rem" loading="eager" process="webp" src="selfie-1440x960.jpg" width="100%"  style="filter: grayscale(100%)" %}}
+<div style="display: flex; gap: 3rem; align-items: center; justify-content: center; max-width: 1200px; margin: 0 auto;">
 
-####
+<div style="flex-shrink: 0;">
+{{% paige/image alt="Landscape" breakpoints=true class="object-fit-cover rounded-4" fetchpriority="high" loading="eager" process="webp" src="*.jpg" width="30rem" %}}
+</div>
+
+<div style="flex-grow: 1; max-width: 600px;">
 
 <p class="display-5 fw-bold mb-2 text-center">Hi, Jimmy Tsai here.</p>
 
 <div class="container-fluid">
     <div class="justify-content-center row">
-        <div class="col col-auto col-lg-7 px-0">
-            <p class="lead text-center">Photagrapher. Engineer. Filmmaker. </p>
-            <p class="lead text-center">A student at Northwestern University taking photos and making films in his free time. You'll catch him squatting in random places looking for the perfect angle. Check out some of his work. </p>
+        <div class="col col-auto px-0">
+            <p class="lead text-center">Photagrapher. Filmmaker. Engineer.</p>
+            <p class="lead text-center">I'm student at Northwestern University taking photos and making films in my free time. You'll catch me squatting in random places looking for the perfect angle. Check out some of my work. </p>
         </div>
     </div>
 </div>
+
+
 
 <!--
 <p class="text-center">

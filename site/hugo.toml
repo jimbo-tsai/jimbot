@@ -25,8 +25,6 @@ weight = 15
 
 
 
-
-
 [[languages.en.menu.main]]
 identifier = "films"
 name = "Films"

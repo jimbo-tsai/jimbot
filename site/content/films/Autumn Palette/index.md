@@ -1,4 +1,3 @@
-
 ---
 categories: ["content", "paige"]
 date: "2023-09-18T21:32:40-07:00"

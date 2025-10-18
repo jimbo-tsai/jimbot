@@ -1,8 +1,7 @@
-
 ---
 categories: ["content", "paige"]
 date: "2023-09-18T21:32:40-07:00"
-
+title: "Tommy Emmanuel"
 weight: 11
 ---
 
@@ -13,3 +12,4 @@ weight: 11
 </div>
 
 {{< paige/gallery width="40rem"  images="*.jpg" loading="lazy" />}}
+
