@@ -1,7 +1,7 @@
 ---
 authors: ["will-faught"]
 categories: ["content", "paige"]
-date: "2023-09-18T21:32:52-07:00"
+date: "2025-10-19T12:32:52-033:00"
 description: "Documentary on the history and legacy of the El Palo Alto Tree."
 tags: ["markdown", "css", "html"]
 title: "El Palo Alto: A Tree's Resilience"
