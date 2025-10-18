@@ -10,7 +10,7 @@ paige:
         display: none;
     }
 title: "Jimmy Tsai"
-date: "2025-10-18T11:05:00-56:00"
+date: "2025-10-18T11:05:01-05:00"
 ---
 
 <div style="display: flex; gap: 3rem; align-items: center; justify-content: center; max-width: 1200px; margin: 0 auto;">
