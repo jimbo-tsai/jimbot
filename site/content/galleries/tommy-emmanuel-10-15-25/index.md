@@ -9,6 +9,6 @@ weight: 11
 <p>Tommy Emmanuel's tour stop at Cahn Auditorium (Evanston, IL) on October 15th, 2025, for his "Living in the Light" album. <br> Thanks to the Daily Northwestern for the opportunity to shoot this event.</p>
 </div>
 
-<div style="display: flex; flex-wrap: wrap; justify-content: flex-start;">
-    {{< modal-gallery width="25vw" images="*.jpg" class="rounded-5" loading="lazy" process="webp" >}}
+<div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: flex-start;">
+    
 </div>
