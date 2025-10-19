@@ -11,5 +11,5 @@ weight: 11
 
 
 <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: flex-start;">
-    {{< modal-gallery width="10vw" images="*.jpg" loading="lazy" process="webp" >}}
+    {{< modal-gallery width="12vw" images="*.jpg" loading="lazy" process="webp" >}}
 </div>
