@@ -23,7 +23,10 @@ date: "2025-10-18T11:03:00-05:00"
         {{<paige/icon class="bi bi-youtube mx-2" title="youtube" url="https://www.youtube.com/channel/UCQulP0uyasw93322XVnpvZQ" >}}
         {{<paige/icon class="bi bi-instagram mx-2" title="instagram" url="https://www.instagram.com/alpha.pentagon" >}}
         {{<paige/icon class="bi bi-envelope mx-2" title="gmail" url="mailto:info.jimbot@gmail.com" >}}
-        {{<paige/icon class="bi bi-linkedin mx-2" title="linkedin" url="https://www.linkedin.com/in/jimmy-tsai-3234a830a/" >}}
-        {{<paige/icon class="bi bi-github mx-2" title="github" url="https://github.com/jimbo-tsai" >}}
     </div>
 </div>
+
+<!--
+        {{<paige/icon class="bi bi-linkedin mx-2" title="linkedin" url="https://www.linkedin.com/in/jimmy-tsai-3234a830a/" >}}
+        {{<paige/icon class="bi bi-github mx-2" title="github" url="https://github.com/jimbo-tsai" >}}
+>
