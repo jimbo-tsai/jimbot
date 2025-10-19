@@ -27,3 +27,19 @@
     display: block; 
     margin: auto; /* Center the image horizontally */
 }
+
+/* Custom CSS for Responsive Text Sizes */
+
+.display-5 {
+  /* clamp(MINIMUM_SIZE, FLUID_SIZE_BASED_ON_VW, MAXIMUM_SIZE) */
+  /* This ensures the text is never smaller than 2rem (small screen) 
+     and never larger than 3.5rem (huge screen), 
+     scaling fluidly in between. */
+  font-size: clamp(2rem, 5vw, 3.5rem) !important; 
+}
+
+.lead {
+  /* Text remains at 1rem minimum and scales up to 1.5rem maximum, 
+     fluidly based on viewport width. */
+  font-size: clamp(1rem, 2vw + 0.5rem, 1.5rem) !important;
+}
