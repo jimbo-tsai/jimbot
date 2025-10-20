@@ -57,7 +57,7 @@
         {{/* MASONRY ITEM: Added item-specific styles to ensure proper sizing and vertical gap */}}
         <a href="#" data-bs-toggle="modal" data-bs-target="#{{ $gallery_id }}" 
            data-bs-slide-to="{{ $index }}" aria-label="Slide {{ add $index 1 }}" 
-           style="width: 100%; display: block; break-inside: avoid; margin: 0 0 {{ $v_margin_neg }} 0; padding-bottom: {{ $v_padding_pos }};"> 
+           style="width: 100%; display: block; break-inside: avoid; margin: 0 0 {{ $v_margin_neg }}; padding-bottom: {{ $v_padding_pos }};"> 
             
             {{ partial "paige/image.html" (dict 
                 "Page" $.Page 
