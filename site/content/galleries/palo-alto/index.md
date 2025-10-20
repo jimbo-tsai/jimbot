@@ -9,6 +9,4 @@ weight: 12
 <p>PALO ALTO</p>
 </div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: flex-start;">
-    {{< modal-gallery width="80vw" images="*.jpg" loading="lazy">}}
-</div>
+{{< modal-gallery-mason images="*.jpg" width="30vw" loading="lazy" >}}

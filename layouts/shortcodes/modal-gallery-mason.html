@@ -1,0 +1,255 @@
+{{/* Paige Modal Gallery Shortcode 
+  Prevents image filenames from being displayed as captions. 
+*/}} 
+{{ $images_param := .Get 0 | default (.Get "images") }} 
+{{ $width := .Get "width" | default "20rem" }} 
+{{ $class := .Get "class" | default "rounded-0" }} 
+{{ $loading := .Get "loading" | default "lazy" }} 
+{{ $align := .Get "align" | default "center" }} 
+{{ $justify := .Get "justify" | default "center" }} 
+{{ $breakpoints := .Get "breakpoints" }} 
+{{ $densities := .Get "densities" }} 
+{{ $fetchpriority := .Get "fetchpriority" }} 
+{{ $page := .Page }} 
+{{ $process := .Get "process" }} 
+
+{{ $resources := slice }} 
+
+{{/* Find the image resources based on the provided pattern */}} 
+{{ if not $images_param }} 
+    {{ with .Page.Resources.ByType "image" }} 
+        {{ $resources = . }}
+    {{ end }} 
+{{ else }} 
+    {{ with $.Page.Resources.Match $images_param }} 
+        {{ $resources = . }} 
+    {{ else }} 
+        {{ $resources = resources.Match $images_param }} 
+    {{ end }} 
+{{ end }} 
+
+{{ if not $resources }} 
+
+    {{ errorf "layouts/shortcodes/modal-gallery.html: No images found with pattern %q in %s" $images_param $.Page.RelPermalink }} 
+{{ end }} 
+
+{{ $gallery_id := printf "modalGallery-%s" (md5 $.Page.RelPermalink) }} 
+
+{{/* NEW MASONRY VARIABLES */}}
+{{ $column_count := 3 }}
+{{ $gap := "0.1rem" }}
+{{ $v_margin_neg := "-0.05rem" }}
+{{ $v_padding_pos := "0.15rem" }}
+
+{{/* ADDED FOR LOW-QUALITY THUMBNAILS */}}
+{{ $thumbnail_process := "Resize 750x q30" }}
+
+{{/* MASONRY CONTAINER: Replaced the flex styles with column styles */}}
+<div style="display: block; column-count: {{ $column_count }}; column-gap: {{ $gap }}; margin: 0; padding: 0;" class="paige-modal-gallery"> 
+
+    {{ range $index, $resource := $resources }} 
+        {{/* Generate a safe, generic alt text for the thumbnail. */}} 
+        {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
+
+        {{/* MODIFIED: Use the ORIGINAL resource. Low-quality processing is applied via the 'process' parameter below. */}}
+
+
+        {{/* MASONRY ITEM: Added item-specific styles to ensure proper sizing and vertical gap */}}
+        <a href="#" data-bs-toggle="modal" data-bs-target="#{{ $gallery_id }}" 
+           data-bs-slide-to="{{ $index }}" aria-label="Slide {{ add $index 1 }}" 
+           style="width: 100%; display: block; break-inside: avoid; margin: 0 0 {{ $v_margin_neg }} 0; padding-bottom: {{ $v_padding_pos }};"> 
+            
+            {{ partial "paige/image.html" (dict 
+                "Page" $.Page 
+                "resource" $resource 
+                "alt" $alt_text 
+                "width" $width 
+                "class" $class 
+                "loading" $loading 
+                "breakpoints" $breakpoints 
+                "densities" $densities 
+                "fetchpriority" $fetchpriority 
+                "process" $thumbnail_process 
+            ) }}
+        </a> 
+    {{ end }} 
+</div>
+
+
+<div class="modal fade" id="{{ $gallery_id }}" tabindex="-1" 
+aria-labelledby="{{ $gallery_id }}Label" aria-hidden="true" 
+data-bs-backdrop="static"> 
+    {{/* Constraint 1: Set max-width of the dialog to 70vw to enforce the horizontal limit */}} 
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl" style="max-width: 70vw;"> 
+        <div class="modal-content bg-transparent border-0"> 
+            <div class="modal-header border-0 pb-4 justify-content-end"> 
+
+                <button type="button" class="btn-close 
+btn-close-white" data-bs-dismiss="modal" 
+aria-label="Close"></button> 
+            </div> 
+            <div class="modal-body pt-0 px-2 text-center"> 
+
+                <div id="carousel-{{ $gallery_id }}" class="carousel slide" data-bs-interval="false"> 
+                    <div class="carousel-inner"> 
+                        {{ range $index, $resource := $resources }} 
+                            <div class="carousel-item {{ if eq $index 0 }}active{{ end }}"> 
+                                {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
+
+
+                                <img src="{{ $resource.RelPermalink 
+}}" class="d-block img-fluid img-fixed-fit" alt="{{ $alt_text }}"> 
+                                {{/* NOTE: $resource is used here for the full-size, high-quality image */}}
+
+                                {{ with $resource.Params.caption }} 
+                                    <div class="carousel-caption d-none d-md-block"> 
+                                        <p class="text-white">{{ . }}</p> 
+                                    </div> 
+                                {{ end }} 
+                            </div> 
+                        {{ end }} 
+                    </div>
+                     
+                    {{/* FIX: ARROWS MOVED BACK INSIDE THE CAROUSEL DIV for functionality */}} 
+                    {{ if gt (len $resources) 1 }} 
+
+                    <button class="carousel-control-prev 
+custom-arrow" type="button" data-bs-target="#carousel-{{ $gallery_id }}"
+data-bs-slide="prev"> 
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span> 
+                        <span class="visually-hidden">Previous</span> 
+                    </button> 
+
+                    <button class="carousel-control-next 
+custom-arrow" type="button" data-bs-target="#carousel-{{ $gallery_id }}"
+data-bs-slide="next"> 
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span> 
+                        <span class="visually-hidden">Next</span> 
+                    </button> 
+                    {{ end }} 
+
+                </div> 
+
+            </div> 
+        </div> 
+
+    </div> 
+</div> 
+
+<script>
+    // Get the ID of the current gallery
+    const galleryId = "{{ $gallery_id }}";
+    const modalElement = document.getElementById(galleryId);
+    const carouselElement = document.getElementById(`carousel-${galleryId}`);
+
+    if (modalElement && carouselElement) {
+        // Listen for the modal to be shown (fired immediately when the show instance method is called)
+        modalElement.addEventListener('show.bs.modal', function (event) {
+            // Get the button (thumbnail <a> tag) that triggered the modal
+            const button = event.relatedTarget; 
+            
+            // Get the index from the button's data attribute
+            const slideTo = button ? button.getAttribute('data-bs-slide-to') : null;
+
+            if (slideTo !== null) {
+                const index = parseInt(slideTo, 10);
+                
+                // Manually set the carousel to the correct slide index
+                // We use setTimeout to ensure this runs just after Bootstrap finishes its own initialization, 
+                // which prevents the index from being immediately reset to 0.
+                setTimeout(() => {
+                    let carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+
+                    if (!carouselInstance) {
+                        // If the instance doesn't exist (first time opening), create it
+                        carouselInstance = new bootstrap.Carousel(carouselElement, {
+                            interval: false // Ensure interval remains off
+                        });
+                    }
+                    
+                    // Move the carousel to the correct index
+                    carouselInstance.to(index);
+                }, 1); // A minimal delay is often required to beat Bootstrap's internal reset
+            }
+        });
+    }
+</script>
+
+<style> 
+/* 1. STABILITY FIX: DYNAMIC HEIGHT & SCROLLING */ 
+.modal-dialog { 
+    /* Keep relative position here for general modal centering */ 
+    position: relative; 
+} 
+
+.modal-content { 
+    /* FIX: Remove max-height and overflow to allow content to define height */ 
+    max-height: none;  
+    overflow-y: visible; 
+} 
+
+.modal-body { 
+    /* FIX: Remove forced height to allow content to define height */ 
+    height: auto;  
+    display: flex; 
+    flex-direction: column; 
+    padding-bottom: 0 !important; 
+    padding-top: 0 !important; 
+    overflow-y: visible !important;  
+} 
+
+.carousel { 
+    /* FIX: Set position to relative so the absolutely positioned arrows anchor correctly */ 
+    position: relative;  
+    height: auto; 
+    min-height: 100%;  
+} 
+
+.carousel-inner { 
+    height: auto; 
+} 
+
+/* 2. CENTERING FIX */ 
+.paige-modal-gallery .carousel-item { 
+    height: auto;  
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+} 
+
+/* 3. IMAGE SCALING (70VW/80VH LIMITS) */ 
+.paige-modal-gallery .carousel-item img { 
+    /* Constraint 2: Set max-height to 80vh to enforce the vertical limit */ 
+    max-height: 80vh;  
+     
+    /* max-width: 100% enforces the 70vw limit set on the .modal-dialog */ 
+    max-width: 100%; 
+     
+    /* This combination ensures the image scales proportionally to fit inside the 70vw x 80vh box. */ 
+    object-fit: contain;  
+    width: auto; 
+    height: auto; 
+    margin-bottom: 1rem; 
+} 
+
+/* 4. ARROW FIX: Position controls correctly centered relative to the carousel */ 
+.custom-arrow { 
+    position: absolute; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    /* Set higher z-index to ensure they are clickable over the image/caption */ 
+    z-index: 10; 
+} 
+
+.carousel-control-prev.custom-arrow { 
+    /* Align to the left edge of the CAROUSEL */ 
+    left: 0; 
+    margin-left: -5rem; /* Push them outside the dialog's visual box */ 
+} 
+
+.carousel-control-next.custom-arrow { 
+    /* Align to the right edge of the CAROUSEL */ 
+    right: 0; 
+    margin-right: -5rem; /* Push them outside the dialog's visual box */ 
+} 
+</style>

@@ -10,7 +10,7 @@ weight: 14
 
 > Filmed for the the 2024 Chinese New Year Celebrations at Palo Alto Chinese School. 
 
-{{< paige/gallery width="40rem" class="rounded-5" images="*.jpg"  />}}
+{{< paige/gallery width="40vw" class="rounded-5" images="*.jpg"  />}}
 <!--
 The MIT License (MIT)
 

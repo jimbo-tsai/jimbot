@@ -6,9 +6,7 @@ weight: 5
 ---
 
 <div style="max-width: 90vw; margin-left: auto; margin-right: auto; text-align: center;">
-<p>TAIWANAHAHAHA</p>
+<p>TAIWAN</p>
 </div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: flex-start;">
-    {{< modal-gallery width="80vw" images="*.jpg" loading="lazy">}}
-</div>
+{{< modal-gallery-mason images="*.jpg" width="20vw" loading="lazy">}}

@@ -10,7 +10,7 @@ weight: 10
 
 > A trip through Yosemite and Mammoth Lakes during the yellow fall.
 
-{{< paige/gallery width="40rem" class="rounded-5" images="*.jpg"  />}}
+{{< paige/gallery width="40vw" class="rounded-5" images="*.jpg"  />}}
 
 <!--
 The MIT License (MIT)
