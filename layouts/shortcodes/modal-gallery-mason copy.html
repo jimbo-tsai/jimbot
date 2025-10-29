@@ -3,7 +3,7 @@
 */}} 
 {{ $images_param := .Get 0 | default (.Get "images") }} 
 {{ $width := .Get "width" | default "20rem" }} 
-{{ $class := .Get "class" | default "rounded-3" }} 
+{{ $class := .Get "class" | default "rounded-0" }} 
 {{ $loading := .Get "loading" | default "lazy" }} 
 {{ $align := .Get "align" | default "center" }} 
 {{ $justify := .Get "justify" | default "center" }} 
@@ -35,20 +35,30 @@
 
 {{ $gallery_id := printf "modalGallery-%s" (md5 $.Page.RelPermalink) }} 
 
+{{/* NEW MASONRY VARIABLES */}}
+{{ $column_count := 3 }}
+{{ $gap := "0.1rem" }}
+{{ $v_margin_neg := "-0.05rem" }}
+{{ $v_padding_pos := "0.15rem" }}
 
-<div class="align-items-{{ $align }} column-gap-3 d-flex flex-wrap 
-justify-content-{{ $justify }} row-gap-3 paige-modal-gallery"> 
+{{/* ADDED FOR LOW-QUALITY THUMBNAILS */}}
+{{ $thumbnail_process := "Resize 750x q30" }}
+
+{{/* MASONRY CONTAINER: Replaced the flex styles with column styles */}}
+<div style="display: block; column-count: {{ $column_count }}; column-gap: {{ $gap }}; margin: 0; padding: 0;" class="paige-modal-gallery"> 
 
     {{ range $index, $resource := $resources }} 
-        {{/* Generate a safe, generic alt text for the thumbnail. 
-        */}} 
+        {{/* Generate a safe, generic alt text for the thumbnail. */}} 
         {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
 
+        {{/* MODIFIED: Use the ORIGINAL resource. Low-quality processing is applied via the 'process' parameter below. */}}
 
-        {{/* THIS A-TAG OPENS THE MODAL AND SETS THE INITIAL SLIDE INDEX */}}
-        <a href="#" data-bs-toggle="modal" data-bs-target="#{{ 
-$gallery_id }}" data-bs-slide-to="{{ $index }}" aria-label="Slide {{ add
-$index 1 }}"> 
+
+        {{/* MASONRY ITEM: Added item-specific styles to ensure proper sizing and vertical gap */}}
+        <a href="#" data-bs-toggle="modal" data-bs-target="#{{ $gallery_id }}" 
+           data-bs-slide-to="{{ $index }}" aria-label="Slide {{ add $index 1 }}" 
+           style="width: 100%; display: block; break-inside: avoid; margin: 0 0 {{ $v_margin_neg }}; padding-bottom: {{ $v_padding_pos }};"> 
+            
             {{ partial "paige/image.html" (dict 
                 "Page" $.Page 
                 "resource" $resource 
@@ -59,18 +69,18 @@ $index 1 }}">
                 "breakpoints" $breakpoints 
                 "densities" $densities 
                 "fetchpriority" $fetchpriority 
-                "process" $process 
-            ) }} 
+                "process" $thumbnail_process 
+            ) }}
         </a> 
     {{ end }} 
-</div> 
+</div>
 
 
 <div class="modal fade" id="{{ $gallery_id }}" tabindex="-1" 
 aria-labelledby="{{ $gallery_id }}Label" aria-hidden="true" 
 data-bs-backdrop="static"> 
     {{/* Constraint 1: Set max-width of the dialog to 70vw to enforce the horizontal limit */}} 
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl" style="max-width: 70vw;"> 
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl" style="max-width: 35vw;"> 
         <div class="modal-content bg-transparent border-0"> 
             <div class="modal-header border-0 pb-4 justify-content-end"> 
 
@@ -89,6 +99,7 @@ aria-label="Close"></button>
 
                                 <img src="{{ $resource.RelPermalink 
 }}" class="d-block img-fluid img-fixed-fit" alt="{{ $alt_text }}"> 
+                                {{/* NOTE: $resource is used here for the full-size, high-quality image */}}
 
                                 {{ with $resource.Params.caption }} 
                                     <div class="carousel-caption d-none d-md-block"> 
@@ -97,7 +108,7 @@ aria-label="Close"></button>
                                 {{ end }} 
                             </div> 
                         {{ end }} 
-                    </div> 
+                    </div>
                      
                     {{/* FIX: ARROWS MOVED BACK INSIDE THE CAROUSEL DIV for functionality */}} 
                     {{ if gt (len $resources) 1 }} 
@@ -212,7 +223,7 @@ data-bs-slide="next">
     max-height: 80vh;  
      
     /* max-width: 100% enforces the 70vw limit set on the .modal-dialog */ 
-    max-width: 100%; 
+    max-width: 10%; 
      
     /* This combination ensures the image scales proportionally to fit inside the 70vw x 80vh box. */ 
     object-fit: contain;  

@@ -78,9 +78,9 @@
 
 <div class="modal fade" id="{{ $gallery_id }}" tabindex="-1" 
 aria-labelledby="{{ $gallery_id }}Label" aria-hidden="true" 
-data-bs-backdrop="static"> 
+data-bs-backdrop="true"> {{/* CHANGED from "static" to "true" */}}
     {{/* Constraint 1: Set max-width of the dialog to 70vw to enforce the horizontal limit */}} 
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl" style="max-width: 70vw;"> 
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down modal-xl" style="max-width: 35vw;"> 
         <div class="modal-content bg-transparent border-0"> 
             <div class="modal-header border-0 pb-4 justify-content-end"> 
 
@@ -109,24 +109,8 @@ aria-label="Close"></button>
                             </div> 
                         {{ end }} 
                     </div>
-                     
-                    {{/* FIX: ARROWS MOVED BACK INSIDE THE CAROUSEL DIV for functionality */}} 
-                    {{ if gt (len $resources) 1 }} 
-
-                    <button class="carousel-control-prev 
-custom-arrow" type="button" data-bs-target="#carousel-{{ $gallery_id }}"
-data-bs-slide="prev"> 
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span> 
-                        <span class="visually-hidden">Previous</span> 
-                    </button> 
-
-                    <button class="carousel-control-next 
-custom-arrow" type="button" data-bs-target="#carousel-{{ $gallery_id }}"
-data-bs-slide="next"> 
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span> 
-                        <span class="visually-hidden">Next</span> 
-                    </button> 
-                    {{ end }} 
+                    
+                    {{/* Arrow functionality remains removed */}}
 
                 </div> 
 
@@ -223,7 +207,7 @@ data-bs-slide="next">
     max-height: 80vh;  
      
     /* max-width: 100% enforces the 70vw limit set on the .modal-dialog */ 
-    max-width: 100%; 
+    max-width: 10%; 
      
     /* This combination ensures the image scales proportionally to fit inside the 70vw x 80vh box. */ 
     object-fit: contain;  
@@ -232,24 +216,4 @@ data-bs-slide="next">
     margin-bottom: 1rem; 
 } 
 
-/* 4. ARROW FIX: Position controls correctly centered relative to the carousel */ 
-.custom-arrow { 
-    position: absolute; 
-    top: 50%; 
-    transform: translateY(-50%); 
-    /* Set higher z-index to ensure they are clickable over the image/caption */ 
-    z-index: 10; 
-} 
-
-.carousel-control-prev.custom-arrow { 
-    /* Align to the left edge of the CAROUSEL */ 
-    left: 0; 
-    margin-left: -5rem; /* Push them outside the dialog's visual box */ 
-} 
-
-.carousel-control-next.custom-arrow { 
-    /* Align to the right edge of the CAROUSEL */ 
-    right: 0; 
-    margin-right: -5rem; /* Push them outside the dialog's visual box */ 
-} 
 </style>

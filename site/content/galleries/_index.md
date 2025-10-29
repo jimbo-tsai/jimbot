@@ -12,6 +12,8 @@ date: "2025-10-18T11:04:20-05:00"
         {{< paige/gallery width="20rem" images="palo-alto.webp" />}}
     <a href="/jimbot/galleries/taiwan/" style="width: 100%; display: block; break-inside: avoid; margin: 0 0 -0.9rem 0; padding-bottom: 0rem;">
         {{< paige/gallery width="20rem" images="taiwan.jpg" />}}
+    <a href="/jimbot/galleries/chicagoland/" style="width: 100%; display: block; break-inside: avoid; margin: 0 0 -0.9rem 0; padding-bottom: 0rem;">
+        {{< paige/gallery width="20rem" images="chicagoland.jpg" />}}
 </div>
 
 

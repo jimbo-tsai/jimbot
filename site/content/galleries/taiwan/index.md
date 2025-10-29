@@ -9,4 +9,4 @@ weight: 5
 <p>TAIWAN</p>
 </div>
 
-{{< modal-gallery-mason images="*.jpg" width="20vw" loading="lazy">}}
+{{< modal-gallery-mason images="*.jpg" width="30vw" loading="lazy">}}
