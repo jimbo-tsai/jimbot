@@ -1,5 +1,5 @@
 {{ $page := . }}
 
-{{ if site.GoogleAnalytics }}
-    {{ template "_internal/google_analytics.html" . }}
+{{ with .Site.Config.Services.GoogleAnalytics.ID }}
+    {{ template "_internal/google_analytics.html" $ }}
 {{ end }}
