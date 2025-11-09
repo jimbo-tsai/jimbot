@@ -1,7 +1,7 @@
 ---
 categories: ["content", "paige"]
 date: "2025-10-18T11:12:01-05:00"
-title: "Chicagoland"
+title: "Tommy Emmanuel Oct 15 2025"
 weight: 12
 ---
 
