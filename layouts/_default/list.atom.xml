@@ -14,7 +14,7 @@
 {{ $sitetitle := site.Title | markdownify }}
 {{ $subpages := slice }}
 {{ $subtitle := $page.Description | markdownify }}
-{{ $updated := site.LastChange.Format $format }}
+{{ $updated := .Site.Lastmod.Format $format }}
 
 {{ if $icon }}
     {{ $icon = absLangURL $icon }}

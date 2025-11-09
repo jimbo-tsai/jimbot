@@ -19,14 +19,14 @@ date: "2025-10-18T11:05:01-05:00"
 </div>
 
 <div style="flex-grow: 1; max-width: 40vw">
-    <p class="fw-bold mb-2 text-center" 
+    <p class="fw-bold mb-2 text-center"
        style="font-size: clamp(0.5rem, 5vw + 0.2rem, 3.5rem) !important;">
         Hi, Jimmy Tsai here.
     </p>
     <div class="container-fluid">
         <div class="justify-content-center row">
             <div class="col col-auto px-0">
-                <p class="lead text-center" 
+                <p class="lead text-center"
                    style="font-size: clamp(0rem, 1.2vw + 0.2rem, 1.5rem) !important;">
                     Photagrapher. Filmmaker. Engineer.
                 </p>
@@ -38,13 +38,3 @@ date: "2025-10-18T11:05:01-05:00"
         </div>
     </div>
 </div>
-<!--
-<p class="text-center">
-    <a class="lead" href="https://github.com/jimbo-tsai">Get started!</a>
-</p>
-
-
-<div class="column-gap-3 d-flex display-6 justify-content-center mb-3">
-    {{< paige/icon class="bi bi-github" title="GitHub" url="https://github.com/jimbo-tsai" >}}
-</div>
--->
