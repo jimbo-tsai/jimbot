@@ -1,0 +1,22 @@
+{{ define "main" }}
+<div class="container text-center">
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Description }}</p>
+
+  <div class="row g-3 justify-content-center">
+    {{- range .Pages }}
+    <div class="col-md-4 col-sm-6">
+      <div class="card h-100">
+        <a href="{{ .RelPermalink }}" class="text-decoration-none">
+          {{- $dirName := path.Base .File.Dir }}
+          <img src="{{ printf "galleries/%s.jpg" $dirName | relURL }}" class="card-img-top" alt="{{ .Title }}" style="height: 200px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ .Title }}</h5>
+          </div>
+        </a>
+      </div>
+    </div>
+    {{- end }}
+  </div>
+</div>
+{{ end }}
