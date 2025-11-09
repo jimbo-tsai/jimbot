@@ -3,9 +3,11 @@ copyright = "Jimmy Tsai ©"
 
 enablerobotstxt = true
 languagecode = "en-us"
-paginate = 50
 timezone = "America/Los_Angeles"
 titlecasestyle = "Go"
+
+[pagination]
+pagerSize = 50
 
 [languages.en]
 title = "Jimmy Tsai"
@@ -88,7 +90,7 @@ color = "#f3a400" # Bootstrap primary color and theme color for Safari and Windo
 color_scheme = "light" # Must be "auto", "dark", or "light"
 external_link_new_tab = false # Open external links in new tabs
 math = false # Enable math typesetting
-style = "" # CSS included at the end of the stylesheet, before style-last.css
+style = "main { margin-bottom: 1rem; } body { padding-bottom: 1rem; }" # CSS included at the end of the stylesheet, before style-last.css
 
 [params.paige.git]
 commit_url = "https://github.com/jimbo-tsai/jimbot/commit/%s"
