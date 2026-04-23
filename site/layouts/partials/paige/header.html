@@ -1,0 +1,36 @@
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400&display=swap" rel="stylesheet">
+
+<header id="paige-header" class="container-fluid py-3">
+    <div class="d-flex align-items-center justify-content-between">
+
+        <div style="flex: 1; text-align: left;">
+            <a class="navbar-brand" 
+               href="{{ .Site.BaseURL }}" 
+               style="font-family: 'Lexend Deca', sans-serif; font-weight: 700; font-size: 1.4rem; letter-spacing: 0.05rem; color: #000; text-decoration: none; line-height: 1;">
+                JIMMY TSAI
+            </a>
+        </div>
+
+        <div style="flex: 0 1 auto;">
+            {{ partial "paige/menu.html" . }}
+        </div>
+        
+        <div style="flex: 1; text-align: right;">
+            <div class="d-flex justify-content-end gap-3">
+                <a href="https://www.youtube.com/channel/UCQulP0uyasw93322XVnpvZQ" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="color: #000; text-decoration: none;">
+                    <i class="bi bi-youtube" style="font-size: 1.5rem;"></i>
+                </a>
+                <a href="https://www.instagram.com/jimbot.tsai" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   style="color: #000000; text-decoration: none;">
+                    <i class="bi bi-instagram" style="font-size: 1.5rem;"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</header>

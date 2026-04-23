@@ -4,7 +4,7 @@ date: "2024-10-18T12:01:00-05:00"
 description: "Reel for Palo Alto Chinese School."
 tags: ["emoji"]
 title: "PACS Chinese New Year Reel"
-weight: 14
+weight: 9
 ---
 {{< paige/youtube "i_41dHO3eHc" >}}
 

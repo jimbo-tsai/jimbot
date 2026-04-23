@@ -28,11 +28,11 @@ date: "2025-10-18T11:05:01-05:00"
             <div class="col col-auto px-0">
                 <p class="lead text-center"
                    style="font-size: clamp(0rem, 1.2vw + 0.2rem, 1.5rem) !important;">
-                    Photagrapher. Filmmaker. Engineer.
+                    Photographer. Filmmaker. Engineer.
                 </p>
                 <p class="lead text-center"
                    style="font-size: clamp(0rem, 1.2vw + 0.2rem, 1.5rem) !important;">
-                    I'm student at Northwestern University taking photos and making films in my free time. You'll catch me squatting in random places looking for the perfect angle. Check out some of my work.
+                    I'm student at Northwestern University studying chemical engineering. I like taking photos and making films in my free time. Check out some of my work!
                 </p>
             </div>
         </div>

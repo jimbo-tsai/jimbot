@@ -5,7 +5,7 @@ date: "2025-10-18T12:32:52-05:00"
 description: "Documentary on the history and legacy of the El Palo Alto Tree."
 tags: ["markdown", "css", "html"]
 title: "El Palo Alto: A Tree's Resilience"
-weight: 10
+weight: 20
 ---
 
 {{< paige/youtube "oxVR8Ficvj8" >}}

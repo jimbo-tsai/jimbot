@@ -1,11 +1,13 @@
 ---
 description:
 title: "About Jimmy"
-date: "2025-10-18T11:03:00-05:00"
+date: "2024-01-18T12:03:00-05:00"
 ---
-
-
+<!--
 {{% paige/image alt="Landscape" breakpoints=true class="object-fit-cover rounded-4" fetchpriority="high" height="20rem" loading="eager" process="webp" src="selfie-1440x960.jpg" width="100%"  style="filter: grayscale(100%)" %}}
+-->
+
+{{% paige/image breakpoints=true class="object-fit-cover rounded-4" fetchpriority="high" height="20rem" loading="eager" process="webp" src="selfie_split.jpg" width="100%" %}}
 
 <br>
 <br>
@@ -21,7 +23,7 @@ date: "2025-10-18T11:03:00-05:00"
 <div style="display: flex; gap: 1rem; justify-content: center; align-items: flex-start;">
     <div class="column-gap-1 d-flex display-6 justify-content-center mb-3">
         {{<paige/icon class="bi bi-youtube mx-2" title="youtube" url="https://www.youtube.com/channel/UCQulP0uyasw93322XVnpvZQ" >}}
-        {{<paige/icon class="bi bi-instagram mx-2" title="instagram" url="https://www.instagram.com/alpha.pentagon" >}}
+        {{<paige/icon class="bi bi-instagram mx-2" title="instagram" url="https://www.instagram.com/jimbot.tsai" >}}
         {{<paige/icon class="bi bi-envelope mx-2" title="gmail" url="mailto:info.jimbot@gmail.com" >}}
     </div>
 </div>

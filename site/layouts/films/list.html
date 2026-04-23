@@ -6,7 +6,7 @@
         
         <a href="{{ .RelPermalink }}" class="text-decoration-none">
           {{- $dirName := path.Base .File.Dir }}
-          <img src="{{ printf "galleries/%s.jpg" $dirName | relURL }}" 
+          <img src="{{ printf "films/%s.jpg" $dirName | relURL }}" 
                class="w-100 h-100" 
                alt="{{ .Title }}" 
                style="object-fit: cover; display: block;">
