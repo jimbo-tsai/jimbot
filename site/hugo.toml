@@ -1,4 +1,4 @@
-baseurl = "https://jimbo-tsai.github.io/jimbot/"
+baseurl = "https://jimbo-tsai.github.io/"
 copyright = "Jimmy Tsai ©"
 
 enablerobotstxt = true
@@ -100,7 +100,7 @@ math = false # Enable math typesetting
 style = "main { margin-bottom: 1rem; } body { padding-bottom: 1rem; }" # CSS included at the end of the stylesheet, before style-last.css
 
 [params.paige.git]
-commit_url = "https://github.com/jimbo-tsai/jimbot/commit/%s"
+commit_url = "https://github.com/jimbo-tsai/jimbo-tsai.github.io/commit/%s"
 
 [[params.paige.feed.atom.authors]]
 email = "will.faught@example.com"
@@ -114,7 +114,7 @@ web_master = "will.faught@example.com (Will Faught)"
 [params.paige.file_link]
 content = "Edit this page"
 disable = true
-url = "https://github.com/jimbo-tsai/jimbot/edit/main/site/content/%s"
+url = "https://github.com/jimbo-tsai/jimbo-tsai.github.io/edit/main/site/content/%s"
 
 [taxonomies]
 author = "authors"
