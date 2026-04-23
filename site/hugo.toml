@@ -1,6 +1,8 @@
 baseurl = "https://jimbo-tsai.github.io/"
 copyright = "Jimmy Tsai ©"
 
+timeout = "300s"
+
 enablerobotstxt = true
 languagecode = "en-us"
 timezone = "America/Los_Angeles"
