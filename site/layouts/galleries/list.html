@@ -1,27 +1,64 @@
 {{ define "main" }}
-  <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-    {{- range .Pages }}
-    <div class="col">
-      <div class="position-relative overflow-hidden rounded-3 border-0 bg-transparent" style="height: 300px;">
-        
-        <a href="{{ .RelPermalink }}" class="text-decoration-none">
-          {{- $dirName := path.Base .File.Dir }}
-          <img src="{{ printf "galleries/%s.jpg" $dirName | relURL }}" 
-               class="w-100 h-100" 
-               alt="{{ .Title }}" 
-               style="object-fit: cover; display: block;">
+<style>
+  /* 1. Use a unique name to avoid theme conflicts */
+  .jimmy-card-container {
+    overflow: hidden;
+    position: relative;
+    height: 300px;
+    display: block;
+    border-radius: 0.5rem; /* Matches rounded-3 */
+  }
 
-          <div class="position-absolute bottom-0 start-0 w-100 p-3 text-center" 
-               style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
-            <h5 class="text-white fw-bold mb-0 text-uppercase" 
-                style="font-family: 'Lexend Deca', sans-serif; letter-spacing: 1px;">
-                {{ .Title }}
-            </h5>
-          </div>
-        </a>
-      </div>
+  .jimmy-zoom-img {
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    object-fit: cover;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scale(1); /* Force initial state */
+  }
+
+  /* 2. THE STICKY FIX: 
+     Using the direct child selector (>) ensures that only the 
+     image inside the SPECIFIC hovered container zooms. */
+  .jimmy-card-container:hover > .text-decoration-none > .jimmy-zoom-img {
+    transform: scale(1.1) !important;
+  }
+
+  /* Keep the overlay from moving or zooming */
+  .jimmy-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+  {{- range .Pages }}
+  <div class="col">
+    <div class="jimmy-card-container">
+      <a href="{{ .RelPermalink }}" class="text-decoration-none">
+        {{- $dirName := path.Base .File.Dir }}
+        
+        <img src="{{ printf "galleries/%s.jpg" $dirName | relURL }}" 
+             class="jimmy-zoom-img" 
+             alt="{{ .Title }}">
+
+        <div class="jimmy-overlay">
+          <h5 class="text-white fw-bold mb-0 text-uppercase" 
+              style="font-family: 'Lexend Deca', sans-serif; letter-spacing: 1px;">
+              {{ .Title }}
+          </h5>
+        </div>
+      </a>
     </div>
-    {{- end }}
   </div>
+  {{- end }}
 </div>
 {{ end }}
