@@ -1,5 +1,5 @@
 ---
-description: "Some watercolor paintings sketches that I've done."
+description: "Some watercolor paintings that I've done."
 title: "Paintings"
 ---
 
