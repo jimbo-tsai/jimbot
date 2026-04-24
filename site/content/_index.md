@@ -18,7 +18,7 @@ paige:
     }
 
     .enlargening-target:hover {
-        transform: scale(1.05) !important;
+        transform: scale(1.02) !important;
     }
 
     .color-change-target {
