@@ -1,17 +1,9 @@
-{{/* Paige Modal Gallery Shortcode */}} 
+{{/* Paige Modal Gallery Shortcode - Fixed Rendering */}} 
 {{ $images_param := .Get 0 | default (.Get "images") }} 
-{{ $width := .Get "width" | default "100%" }} {{/* Thumbnail width within column */}}
-{{ $container_width := .Get "container_width" | default "80%" }} {{/* Gallery width on screen */}}
+{{ $container_width := .Get "container_width" | default "80%" }} 
 {{ $class := .Get "class" | default "rounded-0" }} 
-{{ $loading := .Get "loading" | default "lazy" }} 
-{{ $breakpoints := .Get "breakpoints" }} 
-{{ $densities := .Get "densities" }} 
-{{ $fetchpriority := .Get "fetchpriority" }} 
-{{ $process := .Get "process" }} 
-
 {{ $resources := slice }} 
 
-{{/* Find the image resources */}} 
 {{ if not $images_param }} 
     {{ with .Page.Resources.ByType "image" }} 
         {{ $resources = . }}
@@ -24,25 +16,19 @@
     {{ end }} 
 {{ end }} 
 
-{{ if not $resources }} 
-    {{ errorf "layouts/shortcodes/modal-gallery.html: No images found with pattern %q" $images_param }} 
-{{ end }} 
-
 {{ $gallery_id := printf "modalGallery-%s" (md5 $.Page.RelPermalink) }} 
-
-{{/* MASONRY VARIABLES */}}
 {{ $column_count := 3 }}
 {{ $gap := "0.1rem" }}
 {{ $thumbnail_process := "Resize 750x q30" }}
 
 <div style="width: {{ $container_width }}; margin: 0 auto;">
-    <div style="display: block; column-count: {{ $column_count }}; column-gap: {{ $gap }};" class="paige-modal-gallery"> 
+    <div id="grid-{{ $gallery_id }}" style="display: block; column-count: {{ $column_count }}; column-gap: {{ $gap }};" class="paige-modal-gallery"> 
         {{ range $index, $resource := $resources }} 
             {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
 
-            <a href="#" data-bs-toggle="modal" data-bs-target="#{{ $gallery_id }}" 
+            <a href="#" class="magnify-target" data-bs-toggle="modal" data-bs-target="#{{ $gallery_id }}" 
                data-bs-slide-to="{{ $index }}" aria-label="Slide {{ add $index 1 }}" 
-               style="display: block; break-inside: avoid; margin-bottom: {{ $gap }};"> 
+               style="display: block; break-inside: avoid; margin-bottom: {{ $gap }}; opacity: 0; transform: translateY(10px); transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-in-out !important; overflow: hidden; border-radius: 0;"> 
                 
                 {{ partial "paige/image.html" (dict 
                     "Page" $.Page 
@@ -50,7 +36,7 @@
                     "alt" $alt_text 
                     "width" "100%" 
                     "class" $class 
-                    "loading" $loading 
+                    "loading" "eager" 
                     "process" $thumbnail_process 
                 ) }}
             </a> 
@@ -69,14 +55,7 @@
                     <div class="carousel-inner"> 
                         {{ range $index, $resource := $resources }} 
                             <div class="carousel-item {{ if eq $index 0 }}active{{ end }}"> 
-                                {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
-                                <img src="{{ $resource.RelPermalink }}" class="d-block img-fluid" alt="{{ $alt_text }}" style="max-height: 80vh; margin: 0 auto; object-fit: contain;"> 
-                                
-                                {{ with $resource.Params.caption }} 
-                                    <div class="carousel-caption d-none d-md-block"> 
-                                        <p class="text-white">{{ . }}</p> 
-                                    </div> 
-                                {{ end }} 
+                                <img src="{{ $resource.RelPermalink }}" class="d-block img-fluid" alt="Gallery Image" style="max-height: 80vh; margin: 0 auto; object-fit: contain;"> 
                             </div> 
                         {{ end }} 
                     </div>
@@ -88,46 +67,89 @@
 
 <script>
     (function() {
-        const galleryId = "{{ $gallery_id }}";
-        const modalElement = document.getElementById(galleryId);
-        const carouselElement = document.getElementById(`carousel-${galleryId}`);
-
+        function initGalleryStagger() {
+            const container = document.getElementById("grid-{{ $gallery_id }}");
+            if (!container) return;
+            const items = container.querySelectorAll('.magnify-target');
+            items.forEach((item, index) => {
+                const img = item.querySelector('img');
+                const triggerFade = () => {
+                    const delay = 100 + (index * 30);
+                    setTimeout(() => {
+                        item.style.opacity = "1";
+                        item.style.transform = "translateY(0)";
+                    }, delay);
+                };
+                if (img && img.complete) triggerFade();
+                else if (img) img.addEventListener('load', triggerFade);
+            });
+        }
+        
+        const modalElement = document.getElementById("{{ $gallery_id }}");
+        const carouselElement = document.getElementById("carousel-{{ $gallery_id }}");
         if (modalElement && carouselElement) {
             modalElement.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget; 
                 const slideTo = button ? button.getAttribute('data-bs-slide-to') : null;
-
                 if (slideTo !== null) {
                     const index = parseInt(slideTo, 10);
                     setTimeout(() => {
-                        let carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
-                        if (!carouselInstance) {
-                            carouselInstance = new bootstrap.Carousel(carouselElement, { interval: false });
-                        }
+                        let carouselInstance = bootstrap.Carousel.getInstance(carouselElement) || new bootstrap.Carousel(carouselElement, { interval: false });
                         carouselInstance.to(index);
                     }, 10);
                 }
             });
         }
+        document.addEventListener("DOMContentLoaded", initGalleryStagger);
     })();
 </script>
 
+
 <style> 
 .paige-modal-gallery a img {
-    width: 100% !important;
+    /* 1. Make the image slightly larger so it's 'under' the clip */
+    width: 102% !important;
     height: auto !important;
+    margin-left: -1%;
     display: block;
+    
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    backface-visibility: hidden;
+    will-change: transform;
+    transform: translateZ(0);
 }
-.modal-body { 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center;
-} 
-.carousel-item { 
-    display: none; /* Reset for BS5 */
+
+.magnify-target {
+    display: block;
+    position: relative;
+    background-color: #ffffff !important;
+    
+    /* 2. THE NUCLEAR FIX: clip-path 
+       By clipping the box by a tiny fraction (0.5px), we force 
+       the GPU to ignore the messy anti-aliasing at the very edge. */
+    clip-path: inset(0.5px);
+    
+    /* 3. Ensure the container stays perfectly still */
+    transform: translateZ(0);
+    overflow: hidden;
 }
-.carousel-item.active { 
-    display: flex !important; 
-    justify-content: center;
+
+/* 4. Layer a 1px white border ABOVE the clip area 
+   This acts as a second physical wall. */
+.magnify-target::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 1px solid #ffffff; 
+    pointer-events: none;
+    z-index: 10;
 }
+
+.magnify-target:hover img {
+    transform: scale(1.1) translateZ(0) !important;
+}
+
+/* Modal styling */
+.modal-body { display: flex; flex-direction: column; justify-content: center; } 
+.carousel-item.active { display: flex !important; justify-content: center; }
 </style>
