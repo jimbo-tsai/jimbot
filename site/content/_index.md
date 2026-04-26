@@ -5,12 +5,25 @@ paige:
   style: |
     #paige-collections, #paige-metadata, #paige-sections, #paige-pages { display: none; }
     
+    /* 1. BALANCED RENDERING */
+    img {
+        image-rendering: auto; 
+        max-width: 100%;
+        height: auto;
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    /* 2. OPTIMIZED ANIMATIONS */
     .enlargening-target { 
         opacity: 0;
         transform: translateY(10px);
-        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-in-out !important;
+        /* Target specific properties to prevent layout thrashing */
+        transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.8s ease-in-out !important;
         cursor: pointer;
-        backface-visibility: hidden;
         display: block;
         border-radius: 1rem;
     }
@@ -20,18 +33,25 @@ paige:
         transform: translateY(0);
     }
 
-    .enlargening-target:hover { transform: scale(1.03) !important; }
+    .enlargening-target:hover { 
+        transform: scale(1.02) !important; 
+    }
 
     .color-change-target {
-        transition: all 0.4s ease !important;
+        /* Specific transitions are much faster than 'all' */
+        transition: color 0.4s ease, transform 0.4s ease !important;
         cursor: default;
         display: block;
         width: fit-content;
         text-decoration: none;
     }
-    .color-change-target:hover { color: #f3a400 !important; transform: scale(1.03); }
+    
+    .color-change-target:hover { 
+        color: #f3a400 !important; 
+        transform: scale(1.02); 
+    }
 
-    /* MOBILE DETECTOR */
+    /* 3. MOBILE LAYOUT */
     @media (max-width: 768px) {
         #main-grid { 
             flex-direction: column !important; 
@@ -39,13 +59,11 @@ paige:
             height: auto !important;
             gap: 5vw !important;
         }
-        /* Forces the inner divs to take full width on mobile */
         #main-grid > div { 
             width: 100% !important; 
             min-width: 100% !important; 
             flex: none !important;
         }
-        /* Moves text to the top on mobile */
         .mobile-text-order {
             order: -1 !important;
             padding-left: 0 !important;
@@ -65,7 +83,10 @@ date: "2025-10-18T11:05:01-05:00"
             const triggerFade = () => {
                 const staggeredDelay = 100 + (index * 100);
                 setTimeout(() => {
-                    target.classList.add('revealed');
+                    // Use requestAnimationFrame for a smoother framerate during entry
+                    window.requestAnimationFrame(() => {
+                        target.classList.add('revealed');
+                    });
                 }, staggeredDelay);
             };
             if (img) {
@@ -124,8 +145,6 @@ I'm a student at Northwestern University studying chemical engineering. I like t
 </div>
 
 </div>
-
-
 
 <div style="background-color: #f3a400; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 5vh 0; margin-top: 5vh;">
 <div id="video-section-container" style="display: flex; flex-wrap: wrap; gap: 4vw; align-items: center; justify-content: center; width: 95%; max-width: 1800px; margin: 0 auto;">
@@ -186,15 +205,4 @@ allowfullscreen>
 </div> 
 
 </div> 
-</div>
-
-
-
-</p>
-</div>
-
-</div>
-</div>
-
-</div>
 </div>
