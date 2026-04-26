@@ -101,6 +101,8 @@ external_link_new_tab = false # Open external links in new tabs
 math = false # Enable math typesetting
 style = "main { margin-bottom: 1rem; } body { padding-bottom: 1rem; }" # CSS included at the end of the stylesheet, before style-last.css
 
+
+
 [params.paige.git]
 commit_url = "https://github.com/jimbo-tsai/jimbo-tsai.github.io/commit/%s"
 

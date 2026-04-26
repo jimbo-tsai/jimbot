@@ -1,13 +1,43 @@
-<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* Base style for the growth effect */
-    .header-grow {
-        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
-        display: inline-block; /* Required for transform to work perfectly */
+    /* 1. GLOBAL BASELINE */
+    html, body, p, div, a, li, span, input {
+        font-family: 'Lexend Deca', sans-serif !important;
+        -webkit-font-smoothing: antialiased;
     }
 
-    /* Magnify on hover */
+    /* 2. STANDARD & TITLE WEIGHT (600) */
+    /* This targets headers and your "Photographer. Filmmaker. Engineer." block */
+    h1, h2, h3, .navbar-brand, .title-weight, .lexend-font p {
+        font-family: 'Lexend Deca', sans-serif !important;
+        font-weight: 300 !important;
+    }
+
+    /* 3. LOW-PRIORITY WEIGHT (500) */
+    /* Targets body descriptions, blurbs, and contact info */
+    .color-change-target p, 
+    #video-section-container p, 
+    .contact-urbanist h3,
+    .low-priority {
+        font-family: 'Lexend Deca', sans-serif !important;
+        font-weight: 300 !important;
+    }
+
+    /* 4. BRANDING ANCHOR (700) */
+    /* Keeping the logo at 700 to ensure it remains the boldest element */
+    .navbar-brand {
+        font-weight: 300 !important;
+    }
+
+    /* Keep your existing animations */
+    .header-grow {
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        display: inline-block;
+    }
+
     .header-grow:hover {
         transform: scale(1.08) !important;
     }
@@ -19,7 +49,7 @@
         <div style="flex: 1; text-align: left;">
             <a class="navbar-brand header-grow" 
                href="{{ .Site.BaseURL }}" 
-               style="font-family: 'Lexend Deca', sans-serif; font-weight: 700; font-size: 1.4rem; letter-spacing: 0.05rem; color: #000; text-decoration: none; line-height: 1;">
+               style="font-family: 'Lexend Deca', sans-serif !important; font-weight: 700 !important; font-size: 1.4rem; letter-spacing: 0.05rem; color: #000; text-decoration: none; line-height: 1;">
                 JIMMY TSAI
             </a>
         </div>

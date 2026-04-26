@@ -132,12 +132,12 @@ I'm a student at Northwestern University studying chemical engineering. I like t
 
 <div style="flex: 1; min-width: 300px; color: #fff; padding: 2vw;">
 <div class="color-change-target" style="cursor: default;">
-<h2 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 1.5rem; color: #fff !important;">
+<h2 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 1.5rem; color: #fff !important; text-align: left;">
 El Palo Alto: A Living Legend
 </h2>
 </div>
 <div class="color-change-target" style="cursor: default;">
-<p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.9) !important;">
+<p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.9) !important; text-align: left;">
 This documentary explores the incredible 1,000-year history of the El Palo Alto redwood tree. 
 From its survival through centuries of environmental changes to its role as the namesake of 
 Palo Alto, California, this tree stands as a symbol of resilience.
@@ -159,28 +159,33 @@ allowfullscreen>
 </div>
 </div>
 
-<div style="width: 95%; max-width: 1800px; margin: 8vh auto; min-height: 40vh;">
-<div style="display: flex; flex-wrap: wrap; gap: 1vw; align-items: stretch;">
+<div style="width: 100%; margin: 8vh auto; min-height: 40vh;">
+<div style="display: flex; flex-wrap: wrap; gap: 5vw; align-items: center; justify-content: center; width: 100%;">
 
-<div class="enlargening-target" style="flex: 1; min-width: 300px; display: flex;">
+<div class="enlargening-target" style="flex: 0 0 40%; min-width: 300px; display: flex;">
 {{< paige/image alt="Deering Snow" class="object-fit-cover h-100 rounded-0" src="deering_snow.jpg" width="100%" >}}
 </div>
 
-<div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; justify-content: center; padding: 2vw; text-align: center;">
+<div style="flex: 0 0 40%; min-width: 300px; display: flex; flex-direction: column; justify-content: right; text-align: center;">
 
-<div class="color-change-target" style="color: black; transition: color 0.4s ease;">
-    <h3 style="font-family: 'Lexend Deca', sans-serif; font-size: 1.8rem; margin: 0;">
-        Contact me at:
-    </h3>
-    <h3 style="font-family: 'Lexend Deca', sans-serif; font-size: 1.8rem; margin: 0;">
-        info.jimbot@gmail.com
-    </h3>
+<div class="color-change-target" style="color: black; transition: color 0.4s ease; display: flex; flex-direction: column; align-items: center;">
+<h3 style="font-family: 'Lexend Deca', sans-serif; font-size: 1.8rem; margin: 0;">
+    Contact me at:
+</h3>
+<h3 style="font-family: 'Lexend Deca', sans-serif; font-size: 1.8rem; margin: 0;">
+    info.jimbot@gmail.com
+</h3>
+
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px;">
     <a href="mailto:info.jimbot@gmail.com" class="color-change-target" style="color: black; text-decoration: none; transition: all 0.4s ease;">
         <i class="bi bi-envelope" style="font-size: 2.5rem;"></i>
     </a>
 </div>
+</div>
 
+</div> 
+
+</div> 
 </div>
 
 
