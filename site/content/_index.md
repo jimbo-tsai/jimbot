@@ -80,7 +80,7 @@ date: "2025-10-18T11:05:01-05:00"
 
 <div id="main-grid" style="display: flex; gap: 1vw; align-items: stretch; justify-content: center; width: 95%; max-width: 1800px; margin: 0 auto; min-height: 85vh; flex-wrap: nowrap;">
 
-<div style="flex: 1; min-width: 30%; display: flex; flex-direction: column; gap: 1vw;">
+<div style="flex: 1; min-width: 25%; display: flex; flex-direction: column; gap: 1vw;">
 <div class="enlargening-target" style="flex: 1;">
 {{< paige/image alt="Sunset Cloud" class="object-fit-cover h-100 rounded-0" src="taiwan_sunset_cloud.jpg" width="100%" >}}
 </div>
@@ -89,7 +89,7 @@ date: "2025-10-18T11:05:01-05:00"
 </div>
 </div>
 
-<div style="flex: 1; min-width: 30%; display: flex; flex-direction: column; gap: 1vw;">
+<div style="flex: 1; min-width: 25%; display: flex; flex-direction: column; gap: 1vw;">
 <div class="enlargening-target" style="flex: 1;">
 {{< paige/image alt="Urbex Church" class="object-fit-cover h-100 rounded-0" src="urbex_church.jpg" width="100%" >}}
 </div>
@@ -98,7 +98,7 @@ date: "2025-10-18T11:05:01-05:00"
 </div>
 </div>
 
-<div style="flex: 1; min-width: 30%; display: flex; flex-direction: column; gap: 1vw;">
+<div style="flex: 1; min-width: 25%; display: flex; flex-direction: column; gap: 1vw;">
 <div class="enlargening-target" style="flex: 1;">
 {{< paige/image alt="Sewing Man" class="object-fit-cover h-100 rounded-0" src="sewing_man.jpg" width="100%" >}}
 </div>
@@ -110,7 +110,7 @@ date: "2025-10-18T11:05:01-05:00"
 </div>
 </div>
 
-<div class="mobile-text-order" style="flex: 1.2; min-width: 30%; display: flex; flex-direction: column; gap: 2vw; justify-content: center; padding-left: 1.5vw;">
+<div class="mobile-text-order" style="flex: 1.2; min-width: 25%; display: flex; flex-direction: column; gap: 2vw; justify-content: center; padding-left: 1.5vw;">
 <div class="color-change-target">
 <p class="mb-0" style="font-size: clamp(1.2rem, 3vw, 2.2rem); font-family: 'Lexend Deca', sans-serif; line-height: 1.1; text-align: left;">
 Photographer.<br>Filmmaker.<br>Engineer.
@@ -170,10 +170,11 @@ allowfullscreen>
 
 <div class="color-change-target" style="color: black; transition: color 0.4s ease;">
     <h3 style="font-family: 'Lexend Deca', sans-serif; font-size: 1.8rem; margin: 0;">
-        Contact me at: info.jimbot@gmail.com
+        Contact me at:
     </h3>
-</div>
-
+    <h3 style="font-family: 'Lexend Deca', sans-serif; font-size: 1.8rem; margin: 0;">
+        info.jimbot@gmail.com
+    </h3>
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px;">
     <a href="mailto:info.jimbot@gmail.com" class="color-change-target" style="color: black; text-decoration: none; transition: all 0.4s ease;">
         <i class="bi bi-envelope" style="font-size: 2.5rem;"></i>
