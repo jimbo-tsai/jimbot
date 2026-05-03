@@ -1,106 +1,118 @@
 {{ define "main" }}
 <style>
-  /* 1. Initial State for Waterfall */
-  .jimmy-card-wrapper {
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  /* CSS Masonry Grid */
+  .masonry-grid {
+    column-count: 1;
+    column-gap: 1.5rem;
+    padding: 2 rem 0;
   }
+  
+  /* Responsive breakpoints for the masonry columns */
+  @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
+  @media (min-width: 992px) { .masonry-grid { column-count: 3; } }
 
-  /* 2. Revealed State */
-  .jimmy-card-wrapper.revealed {
-    opacity: 1;
-    transform: translateY(0);
+  /* Core Animation Logic & Masonry Item Rules */
+  .jimmy-card-wrapper { 
+    break-inside: avoid; /* Prevents a card from splitting across columns */
+    margin-bottom: 1.5rem; /* Replaces the Bootstrap 'g-4' gap */
+    opacity: 0; 
+    transform: translateY(15px); 
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out; 
+    will-change: opacity, transform; 
   }
-
-  .jimmy-card-container {
-    overflow: hidden;
-    position: relative;
-    height: 300px;
-    display: block;
-    border-radius: 0rem; /* Rounded corners */
+  .jimmy-card-wrapper.revealed { opacity: 1; transform: translateY(0); }
+  
+  /* Removed fixed height so images dictate the shape */
+  .jimmy-card-container { 
+    overflow: hidden; 
+    position: relative; 
+    display: block; 
+    background-color: #eee; 
+    border-radius: 0px; /* Optional: smooth edges look great on masonry */
   }
-
-  .jimmy-zoom-img {
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
-    object-fit: cover;
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Magnify effect on hover */
-  .jimmy-card-container:hover .jimmy-zoom-img {
-    transform: scale(1.1) !important;
-  }
-
-  .jimmy-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1.5rem 1rem;
-    text-align: center;
-    background: linear-gradient(transparent, rgba(0,0,0,0.85));
-    pointer-events: none;
-    z-index: 2;
-  }
+  
+  .jimmy-zoom-img { transition: transform 0.5s ease-out !important; object-fit: cover; display: block; width: 100%; height: auto; }
+  .jimmy-card-container:hover .jimmy-zoom-img { transform: scale(1.05) !important; }
+  .jimmy-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 1.5rem 1rem; text-align: center; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); pointer-events: none; z-index: 2; }
 </style>
 
-<div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center" id="collections-grid">
+<!-- Replaced Bootstrap row classes with custom masonry-grid -->
+<div class="masonry-grid" id="collections-grid">
   {{- range .Pages }}
-  <div class="col jimmy-card-wrapper">
-    <div class="jimmy-card-container">
-      <a href="{{ .RelPermalink }}" class="text-decoration-none">
-        {{- $dirName := path.Base .File.Dir }}
-        
-        <img src="{{ printf "galleries/%s.jpg" $dirName | relURL }}" 
-             class="jimmy-zoom-img" 
-             alt="{{ .Title }}">
+    <div class="jimmy-card-wrapper">
+      <div class="jimmy-card-container">
+        <a href="{{ .RelPermalink }}" class="text-decoration-none">
+          
+          {{- $dirName := path.Base .File.Dir }}
+          {{- $fileName := printf "galleries/%s.jpg" $dirName }}
+          {{- $img := resources.Get $fileName }}
 
-        <div class="jimmy-overlay">
-          <h5 class="text-white fw-bold mb-0 text-uppercase" 
-              style="font-family: 'Lexend Deca', sans-serif; letter-spacing: 1px;">
-              {{ .Title }}
-          </h5>
-        </div>
-      </a>
+          {{- if $img }}
+            {{/* CHANGED: Used Resize instead of Fill to keep natural aspect ratio */}}
+            {{- $thumb := $img.Resize "600x q80" }}
+            <img src="{{ $thumb.RelPermalink }}" 
+                 class="jimmy-zoom-img" 
+                 alt="{{ .Title }}"
+                 loading="lazy"
+                 decoding="async">
+          {{- else }}
+            <img src="{{ printf "galleries/%s.jpg" $dirName | relURL }}" 
+                 class="jimmy-zoom-img" 
+                 alt="{{ .Title }}"
+                 loading="lazy"
+                 decoding="async">
+          {{- end }}
+
+          <div class="jimmy-overlay">
+            <h5 class="text-white fw-bold mb-0 text-uppercase" 
+                style="font-family: 'Lexend Deca', sans-serif; letter-spacing: 1px;">
+                {{ .Title }}
+            </h5>
+          </div>
+        </a>
+      </div>
     </div>
-  </div>
   {{- end }}
 </div>
 
 <script>
-(function() {
+  (function() {
     function initCollectionsWaterfall() {
         const grid = document.getElementById('collections-grid');
         if (!grid) return;
-
         const cards = grid.querySelectorAll('.jimmy-card-wrapper');
         
-        cards.forEach((card, index) => {
-            const img = card.querySelector('img');
-            
-            const triggerFade = () => {
-                // Waterfall timing: 200ms start + 120ms per additional card
-                const delay = 80 + (index * 80);
-                setTimeout(() => {
-                    card.classList.add('revealed');
-                }, delay);
-            };
-
-            if (img && img.complete) {
-                triggerFade();
-            } else if (img) {
-                img.addEventListener('load', triggerFade);
-                img.addEventListener('error', triggerFade);
-            } else {
-                triggerFade();
-            }
-        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const img = card.querySelector('img');
+                    
+                    if (img) {
+                        img.decode().then(() => {
+                            const index = Array.from(cards).indexOf(card);
+                            setTimeout(() => {
+                                window.requestAnimationFrame(() => { card.classList.add('revealed'); });
+                            }, (index % 3) * 120); 
+                        }).catch(() => {
+                            card.classList.add('revealed');
+                        });
+                    } else {
+                        card.classList.add('revealed');
+                    }
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.05, rootMargin: "50px" });
+        
+        cards.forEach(card => observer.observe(card));
     }
 
-    document.addEventListener("DOMContentLoaded", initCollectionsWaterfall);
-})();
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initCollectionsWaterfall);
+    } else {
+        initCollectionsWaterfall();
+    }
+  })();
 </script>
 {{ end }}

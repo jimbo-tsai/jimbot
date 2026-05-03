@@ -1,4 +1,4 @@
-{{/* Paige Modal Gallery Shortcode - Fixed Rendering */}} 
+{{/* Paige Modal Gallery Shortcode - GIF Supported */}} 
 {{ $images_param := .Get 0 | default (.Get "images") }} 
 {{ $container_width := .Get "container_width" | default "80%" }} 
 {{ $class := .Get "class" | default "rounded-0" }} 
@@ -21,24 +21,40 @@
 {{ $gap := "0.1rem" }}
 {{ $thumbnail_process := "Resize 750x q30" }}
 
-<div style="width: {{ $container_width }}; margin: 0 auto;">
-    <div id="grid-{{ $gallery_id }}" style="display: block; column-count: {{ $column_count }}; column-gap: {{ $gap }};" class="paige-modal-gallery"> 
+<!-- Moved width to the end of the style string -->
+<div style="margin: 0 auto; width: {{ $container_width }};">
+    <!-- Moved column-count to the end of the style string -->
+    <div id="grid-{{ $gallery_id }}" style="display: block; column-gap: {{ $gap }}; column-count: {{ $column_count }};" class="paige-modal-gallery"> 
         {{ range $index, $resource := $resources }} 
             {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
+            
+            {{/* Check for GIF subtype to bypass processing */}}
+            {{ $is_gif := eq $resource.MediaType.SubType "gif" }}
 
+            <!-- Moved margin-bottom to the end of the style string -->
             <a href="#" class="magnify-target" data-bs-toggle="modal" data-bs-target="#{{ $gallery_id }}" 
                data-bs-slide-to="{{ $index }}" aria-label="Slide {{ add $index 1 }}" 
-               style="display: block; break-inside: avoid; margin-bottom: {{ $gap }}; opacity: 0; transform: translateY(10px); transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-in-out !important; overflow: hidden; border-radius: 0;"> 
+               style="display: block; break-inside: avoid; opacity: 0; transform: translateY(10px); transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-in-out !important; overflow: hidden; border-radius: 0; margin-bottom: {{ $gap }};"> 
                 
-                {{ partial "paige/image.html" (dict 
-                    "Page" $.Page 
-                    "resource" $resource 
-                    "alt" $alt_text 
-                    "width" "100%" 
-                    "class" $class 
-                    "loading" "eager" 
-                    "process" $thumbnail_process 
-                ) }}
+                {{ if $is_gif }}
+                    {{/* Render raw GIF to preserve animation */}}
+                    <img src="{{ $resource.RelPermalink }}" 
+                         alt="{{ $alt_text }}" 
+                         class="{{ $class }}" 
+                         style="width: 100%; height: auto; display: block;" 
+                         loading="eager">
+                {{ else }}
+                    {{/* Normal image processing */}}
+                    {{ partial "paige/image.html" (dict 
+                        "Page" $.Page 
+                        "resource" $resource 
+                        "alt" $alt_text 
+                        "width" "100%" 
+                        "class" $class 
+                        "loading" "eager" 
+                        "process" $thumbnail_process 
+                    ) }}
+                {{ end }}
             </a> 
         {{ end }} 
     </div>
@@ -104,15 +120,12 @@
     })();
 </script>
 
-
 <style> 
 .paige-modal-gallery a img {
-    /* 1. Make the image slightly larger so it's 'under' the clip */
     width: 102% !important;
     height: auto !important;
     margin-left: -1%;
     display: block;
-    
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
     backface-visibility: hidden;
     will-change: transform;
@@ -123,19 +136,11 @@
     display: block;
     position: relative;
     background-color: #ffffff !important;
-    
-    /* 2. THE NUCLEAR FIX: clip-path 
-       By clipping the box by a tiny fraction (0.5px), we force 
-       the GPU to ignore the messy anti-aliasing at the very edge. */
     clip-path: inset(0.5px);
-    
-    /* 3. Ensure the container stays perfectly still */
     transform: translateZ(0);
     overflow: hidden;
 }
 
-/* 4. Layer a 1px white border ABOVE the clip area 
-   This acts as a second physical wall. */
 .magnify-target::after {
     content: "";
     position: absolute;
@@ -149,7 +154,6 @@
     transform: scale(1.1) translateZ(0) !important;
 }
 
-/* Modal styling */
 .modal-body { display: flex; flex-direction: column; justify-content: center; } 
 .carousel-item.active { display: flex !important; justify-content: center; }
 </style>

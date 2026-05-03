@@ -2,7 +2,7 @@
 categories: ["content", "paige"]
 date: "2022-01-19T11:12:09-05:00"
 title: "Chicagoland"
-weight: 11
+weight: 21
 ---
 
 <div style="max-width: 90vw; margin-left: auto; margin-right: auto; text-align: center;">
