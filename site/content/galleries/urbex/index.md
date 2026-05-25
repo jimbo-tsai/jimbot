@@ -6,7 +6,7 @@ weight: 30
 ---
 
 <div style="max-width: 90vw; margin-left: auto; margin-right: auto; text-align: center;">
-<p>Highlights from exploring</p>
+<p></p>
 </div>
 
-{{< modal-gallery-mason images="*.jpg" width="30vw" loading="lazy" >}}
+{{< masonry images="*.jpg" width="30vw" loading="lazy" >}}

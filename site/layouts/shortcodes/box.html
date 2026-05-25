@@ -1,0 +1,23 @@
+{{ $color := .Get "color" | default "yellow" }}
+{{ $bg := "#ffdc94" }}
+{{ $text := "#926200" }}
+
+{{ if eq $color "blue" }}
+  {{ $bg = "#bcd0ff" }}
+  {{ $text = "#002e9b" }}
+{{ end }}
+
+{{ if eq $color "yellow-analagous-1" }}
+  {{ $bg = "#fff694" }}
+  {{ $text = "#796f00" }}
+{{ end }}
+
+{{ if eq $color "yellow-analagous-1" }}
+  {{ $bg = "#ffc194" }}
+  {{ $text = "#793200" }}
+{{ end }}
+
+
+<div style="background-color: {{ $bg }}; color: {{ $text }}; padding: 1.25rem; border-radius: 0.5vw; margin-bottom: 1.5rem;">
+  {{ .Inner | markdownify }}
+</div>

@@ -1,0 +1,9 @@
+{{ $images := $.Page.Resources.Match "*.jpg" }}
+
+{{ range $images }}
+    {{ if ne .Name "deering_snow.jpg" }}
+        <div class="slideshow-slide">
+            <img alt="{{ replace .Name ".jpg" "" | humanize | title }}" class="slide-img rounded-0" src="{{ .RelPermalink }}" />
+        </div>
+    {{ end }}
+{{ end }}

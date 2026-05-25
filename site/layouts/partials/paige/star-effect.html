@@ -3,15 +3,15 @@
 </div>
 
 <script>
-
 (function() {
     const canvas = document.getElementById('starCanvas');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: false }); // Optimization: tells browser no transparency needed for bg
+    
+    const ctx = canvas.getContext('2d'); 
 
     let stars = [];
     let mouse = { x: -2000, y: -2000 };
-    const mouseRadiusSq = 150 * 150; // Pre-calculate square for faster math
+    const mouseRadiusSq = 150 * 150; 
     let scrollY = window.scrollY;
 
     function lcg(seed) {
@@ -31,7 +31,7 @@
     function initStars() {
         stars = [];
         const nextRandom = lcg(67);
-        for (let i = 0; i < 120; i++) { // Dropped to 80 stars for performance
+        for (let i = 0; i < 120; i++) { 
             stars.push({
                 originX: nextRandom(),
                 originY: nextRandom(),
@@ -53,14 +53,14 @@
         mouse.y = e.clientY; 
     }, { passive: true });
     
-    // Optimized scroll handling
     window.addEventListener('scroll', () => { 
-        scrollY = window.pageYOffset; 
+        scrollY = window.pageYOffset || document.documentElement.scrollTop; 
     }, { passive: true });
 
     resize();
 
     function animate(time) {
+        // Clear background with solid white
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -77,11 +77,11 @@
 
             const dx = mouse.x - curX;
             const dy = mouse.y - curY;
-            const distSq = dx * dx + dy * dy; // No Math.sqrt
+            const distSq = dx * dx + dy * dy; 
 
             if (distSq < mouseRadiusSq) {
                 s.colorPct = Math.min(1, s.colorPct + 0.08);
-                const dist = Math.sqrt(distSq); // Only do sqrt if we are actually close
+                const dist = Math.sqrt(distSq); 
                 const force = (150 - dist) / 150;
                 s.vx -= (dx / dist) * force * 1.8;
                 s.vy -= (dy / dist) * force * 1.8;
@@ -98,7 +98,13 @@
             
             ctx.beginPath();
             ctx.arc(curX, curY, s.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${Math.floor(243 * s.colorPct)}, ${Math.floor(164 * s.colorPct)}, 0, ${op})`;
+            
+            // Base stars are black (0,0,0), and transition smoothly to gold (243,164,0) on hover
+            const r = Math.floor(243 * s.colorPct);
+            const g = Math.floor(164 * s.colorPct);
+            const b = 0;
+
+            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${op})`;
             ctx.fill();
         }
 

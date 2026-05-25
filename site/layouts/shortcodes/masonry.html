@@ -1,0 +1,240 @@
+{{ $images_param := .Get 0 | default (.Get "images") }} 
+{{ $container_width := .Get "container_width" | default "100vw" }} 
+{{ $class := .Get "class" | default "rounded-0" }} 
+{{ $grayscale := .Get "grayscale" | default "false" }}
+{{ $resources := slice }} 
+
+{{ if not $images_param }} 
+    {{ with .Page.Resources.ByType "image" }} 
+        {{ $resources = . }}
+    {{ end }} 
+{{ else }} 
+    {{ with $.Page.Resources.Match $images_param }} 
+        {{ $resources = . }} 
+    {{ else }} 
+        {{ $resources = resources.Match $images_param }} 
+    {{ end }} 
+{{ end }} 
+
+{{ $gallery_id := printf "modalGallery-%s" (md5 $.Page.RelPermalink) }} 
+
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; box-sizing: border-box;">
+    <div id="grid-{{ $gallery_id }}" class="paige-modal-gallery"> 
+         
+        {{ range $index, $resource := $resources }} 
+            {{ $is_wide := in $resource.Name "-wide" }}
+            {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
+            {{ $is_gif := eq $resource.MediaType.SubType "gif" }}
+
+            {{ $thumbnail_process := "Resize 800x" }}
+            {{ if $is_wide }}{{ $thumbnail_process = "Resize 1600x" }}{{ end }}
+
+            <a href="#" class="magnify-target {{ if $is_wide }}grid-wide{{ end }} {{ if eq $grayscale "true" }}grayscale-thumbnail{{ end }}" 
+               data-bs-toggle="modal" 
+               data-bs-target="#{{ $gallery_id }}" 
+               data-bs-slide-to="{{ $index }}" 
+               aria-label="Slide {{ add $index 1 }}"
+               data-aspect="{{ div (float $resource.Width) (float $resource.Height) }}"> 
+                
+                {{ if $is_gif }}
+                    <img src="{{ $resource.RelPermalink }}" alt="{{ $alt_text }}" class="{{ $class }}" loading="lazy" decoding="async">
+                {{ else }}
+                    {{ partial "paige/image.html" (dict "Page" $.Page "resource" $resource "alt" $alt_text "width" "100%" "class" (printf "%s w-100 h-auto" $class) "loading" "lazy" "process" $thumbnail_process) }}
+                {{ end }}
+            </a> 
+        {{ end }} 
+    </div>
+</div>
+
+<div class="modal fade" id="{{ $gallery_id }}" tabindex="-1" aria-hidden="true" style="outline: none;"> 
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 90vw;"> 
+        <div class="modal-content bg-transparent border-0"> 
+            <div class="modal-header border-0 pb-4 justify-content-end"> 
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button> 
+            </div> 
+            <div class="modal-body pt-0 px-2 text-center"> 
+                <div id="carousel-{{ $gallery_id }}" class="carousel slide" data-bs-interval="false"> 
+                    <div class="carousel-inner"> 
+                        {{ range $index, $resource := $resources }} 
+                            <div class="carousel-item {{ if eq $index 0 }}active{{ end }}"> 
+                                <img src="{{ $resource.RelPermalink }}" class="d-block img-fluid" alt="Gallery Image" style="max-height: 80vh; margin: 0 auto; object-fit: contain;" loading="lazy" decoding="async"> 
+                            </div> 
+                        {{ end }} 
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $gallery_id }}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $gallery_id }}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div> 
+
+<script>
+    (function() {
+        const grid = document.getElementById("grid-{{ $gallery_id }}");
+        if (!grid) return;
+
+        function resizeGridItems() {
+            const items = grid.querySelectorAll('.magnify-target');
+            const gridStyles = window.getComputedStyle(grid);
+            const rowHeight = parseInt(gridStyles.getPropertyValue('grid-auto-rows')) || 1;
+            const rowGap = parseInt(gridStyles.getPropertyValue('gap')) || 0;
+
+            items.forEach(item => {
+                const nativeAspect = parseFloat(item.getAttribute('data-aspect'));
+                if (!nativeAspect) return;
+                const itemWidth = item.getBoundingClientRect().width;
+                const calculatedHeight = itemWidth / nativeAspect;
+                const rowSpan = Math.ceil((calculatedHeight + rowGap) / (rowHeight + rowGap));
+                item.style.gridRowEnd = `span ${rowSpan}`;
+            });
+        }
+
+        window.addEventListener('resize', resizeGridItems);
+        window.addEventListener('load', resizeGridItems);
+        setTimeout(resizeGridItems, 100);
+
+        function initGalleryObserver() {
+            const items = grid.querySelectorAll('.magnify-target');
+            const observerOptions = { root: null, rootMargin: '150px', threshold: 0.01 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const item = entry.target;
+                        requestAnimationFrame(() => {
+                            item.style.opacity = "1";
+                            item.style.transform = "translateY(0)";
+                        });
+                        observer.unobserve(item);
+                    }
+                });
+            }, observerOptions);
+            items.forEach(item => observer.observe(item));
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initGalleryObserver);
+        } else {
+            initGalleryObserver();
+        }
+
+        const modalElement = document.getElementById("{{ $gallery_id }}");
+        const carouselElement = document.getElementById("carousel-{{ $gallery_id }}");
+        
+        if (modalElement && carouselElement) {
+            let isModalOpen = false;
+
+            modalElement.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget; 
+                const slideTo = button ? button.getAttribute('data-bs-slide-to') : null;
+                if (slideTo !== null) {
+                    const index = parseInt(slideTo, 10);
+                    setTimeout(() => {
+                        let carouselInstance = bootstrap.Carousel.getInstance(carouselElement) || new bootstrap.Carousel(carouselElement, { interval: false });
+                        carouselInstance.to(index);
+                    }, 10);
+                }
+            });
+
+            modalElement.addEventListener('shown.bs.modal', function() {
+                isModalOpen = true;
+            });
+
+            modalElement.addEventListener('hide.bs.modal', function() {
+                isModalOpen = false;
+            });
+
+            // Global document level listener bypasses focus entirely
+            document.addEventListener('keydown', function(e) {
+                if (!isModalOpen) return;
+                
+                let carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+                if (!carouselInstance) return;
+
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    carouselInstance.prev();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    carouselInstance.next();
+                }
+            });
+
+            modalElement.addEventListener('click', function(e) {
+                const isImg = e.target.tagName === 'IMG';
+                const isControl = e.target.closest('.carousel-control-prev') || e.target.closest('.carousel-control-next');
+                
+                if (!isImg && !isControl) {
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) modalInstance.hide();
+                }
+            });
+        }
+    })();
+</script>
+
+<style> 
+.paige-modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 2px;
+    gap: 3vw;
+    grid-auto-flow: dense;
+    padding: 0 5vw;
+    width: 100%;
+    box-sizing: border-box;
+}
+.magnify-target {
+    display: block;
+    position: relative;
+    background-color: transparent !important;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-in-out !important;
+}
+.grayscale-thumbnail img,
+.grayscale-thumbnail picture img {
+    filter: grayscale(100%) !important;
+    transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.grayscale-thumbnail:hover img,
+.grayscale-thumbnail:hover picture img {
+    filter: grayscale(0%) !important;
+}
+.paige-modal-gallery a img,
+.paige-modal-gallery a picture img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+}
+body { overflow-x: hidden; }
+.grid-wide { grid-column: span 2; }
+@media (max-width: 992px) { .paige-modal-gallery { grid-template-columns: repeat(3, 1fr) !important; } }
+@media (max-width: 768px) { .paige-modal-gallery { grid-template-columns: repeat(2, 1fr) !important; } .grid-wide { grid-column: span 2; } }
+@media (max-width: 480px) { .paige-modal-gallery { grid-template-columns: 1fr !important; } .grid-wide { grid-column: span 1; } }
+.magnify-target::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 1px solid #ffffff; 
+    pointer-events: none;
+    z-index: 10;
+}
+.magnify-target:hover img,
+.magnify-target:hover picture img {
+    transform: scale(1.04) !important;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.modal-body { display: flex; flex-direction: column; justify-content: center; } 
+.carousel-item.active { display: flex !important; justify-content: center; }
+.carousel-control-prev, .carousel-control-next { width: 5%; }
+</style>

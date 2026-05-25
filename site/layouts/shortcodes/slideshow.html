@@ -1,0 +1,164 @@
+{{/* Paige Slideshow Shortcode - True Equidistant Image Spacing */}} 
+{{ $images_param := .Get 0 | default (.Get "images") }} 
+{{ $class := .Get "class" | default "rounded-0" }} 
+{{ $resources := slice }} 
+{{ $has_text := gt (len (trim .Inner " \n\r\t")) 0 }}
+
+{{/* Image Fetching Logic */}}
+{{ if $images_param }}
+    {{ $resources = $.Page.Resources.Match $images_param }}
+    {{ if not $resources }}
+        {{ $resources = resources.Match $images_param }}
+    {{ end }}
+{{ else }}
+    {{ $resources = .Page.Resources.ByType "image" }}
+{{ end }}
+
+<div class="paige-slideshow-wrapper">
+    {{/* Left Text Area */}}
+    {{ if $has_text }}
+    <div class="slideshow-text-panel">
+        <div class="slideshow-text-content">
+            {{ .Inner | markdownify }}
+        </div>
+    </div>
+    {{ end }}
+
+    {{/* Right Slideshow Area */}}
+    <div class="slideshow-carousel-panel" style="{{ if not $has_text }}width: 100vw;{{ end }}">
+        <div class="slideshow-track" id="track-{{ .Ordinal }}">
+            
+            {{ if gt (len $resources) 0 }}
+                {{ range $index, $resource := $resources }} 
+                    {{ $alt_text := $resource.Title | default (printf "Slide Image %d" (add $index 1)) }} 
+                    {{ $is_gif := eq $resource.MediaType.SubType "gif" }}
+                    {{ $loading := cond (eq $index 0) "eager" "lazy" }}
+                    
+                    <div class="slideshow-slide">
+                        {{ if $is_gif }}
+                            <img src="{{ $resource.RelPermalink }}" alt="{{ $alt_text }}" class="{{ $class }} slide-img" loading="{{ $loading }}" decoding="async">
+                        {{ else }}
+                            {{ $scaled := $resource.Process "Resize 1600x q80" }}
+                            <img src="{{ $scaled.RelPermalink }}" width="{{ $scaled.Width }}" height="{{ $scaled.Height }}" alt="{{ $alt_text }}" class="{{ $class }} slide-img" loading="{{ $loading }}" decoding="async">
+                        {{ end }}
+                    </div>
+                {{ end }}
+            {{ else }}
+                <div class="slideshow-slide" style="flex: 0 0 100%; width: 100%;">
+                    <div style="color: #ff6b6b; text-align: center; padding: 2rem; border: 2px dashed #ff6b6b; border-radius: 8px; width: 100%;">
+                        <h4 style="margin-bottom: 0.5rem;">⚠️ No Images Found</h4>
+                    </div>
+                </div>
+            {{ end }}
+            
+        </div>
+
+        {{/* Navigation Buttons */}}
+        {{ if gt (len $resources) 1 }}
+        <button class="slide-nav-btn prev-btn" aria-label="Previous image" onclick="document.getElementById('track-{{ .Ordinal }}').scrollBy({ left: -window.innerWidth * 0.65, behavior: 'smooth' })">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="slide-nav-btn next-btn" aria-label="Next image" onclick="document.getElementById('track-{{ .Ordinal }}').scrollBy({ left: window.innerWidth * 0.65, behavior: 'smooth' })">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        {{ end }}
+    </div>
+</div>
+
+<style>
+.paige-slideshow-wrapper {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background: transparent;
+    overflow: hidden;
+    min-height: 450px;
+}
+
+.slideshow-text-panel {
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 2rem 2rem 4rem; 
+    box-sizing: border-box;
+}
+
+.slideshow-carousel-panel {
+    width: 80vw; 
+    position: relative;
+    display: flex;
+}
+
+.slideshow-track {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden; /* Prevents vertical scroll tracking inside the gallery container */
+    touch-action: pan-x; /* Instructs mobile/trackpad devices to only capture horizontal sweeps */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* This creates the exact gap structural rule between image containers */
+    gap: 40px; 
+    padding-left: 20px;
+    padding-right: 40vw; /* Keeps space at the end to scroll seamlessly */
+}
+.slideshow-track::-webkit-scrollbar { display: none; }
+
+.slideshow-slide {
+    /* Let the width shrink dynamically down to the picture aspect ratio */
+    flex: 0 0 auto; 
+    scroll-snap-align: start; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.slide-img {
+    /* Explicitly lock sizing logic to viewport widths to create a peek layout */
+    width: auto;
+    max-width: 65vw; 
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+/* Nav Controls */
+.slide-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.05); 
+    color: #333;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s;
+}
+.slide-nav-btn:hover { background: rgba(0, 0, 0, 0.12); }
+.prev-btn { left: 1rem; }
+.next-btn { right: 2rem; } 
+
+@media (max-width: 992px) {
+    .paige-slideshow-wrapper { flex-direction: column; }
+    .slideshow-text-panel { width: 100vw; padding: 2rem; text-align: center; }
+    .slideshow-carousel-panel { width: 100vw !important; }
+    .slide-img { max-width: 80vw; }
+    .slideshow-track { gap: 20px; padding-right: 20vw; }
+}
+</style>

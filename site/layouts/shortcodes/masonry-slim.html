@@ -1,0 +1,195 @@
+{{/* Slim Paige Modal Gallery Shortcode - GIF Supported */}} 
+{{ $images_param := .Get 0 | default (.Get "images") }} 
+{{ $container_width := .Get "container_width" | default "80%" }} 
+{{ $class := .Get "class" | default "rounded-0" }} 
+{{ $grayscale := .Get "grayscale" | default "false" }}
+{{ $resources := slice }} 
+
+{{ if not $images_param }} 
+    {{ with .Page.Resources.ByType "image" }} 
+        {{ $resources = . }}
+    {{ end }} 
+{{ else }} 
+    {{ with $.Page.Resources.Match $images_param }} 
+        {{ $resources = . }} 
+    {{ else }} 
+        {{ $resources = resources.Match $images_param }} 
+    {{ end }} 
+{{ end }} 
+
+{{ $gallery_id := printf "modalGallery-%s" (md5 $.Page.RelPermalink) }} 
+{{ $column_count := 3 }}
+{{ $gap := "0.1rem" }}
+{{ $thumbnail_process := "Resize 750x q30" }}
+
+<div style="margin: 0 auto; width: {{ $container_width }};">
+    <div id="grid-{{ $gallery_id }}" style="display: block; column-gap: {{ $gap }}; column-count: {{ $column_count }};" class="paige-modal-gallery"> 
+        {{ range $index, $resource := $resources }} 
+            {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
+            {{ $is_gif := eq $resource.MediaType.SubType "gif" }}
+
+            <a href="#" class="magnify-target {{ if eq $grayscale "true" }}grayscale-thumbnail{{ end }}" data-bs-toggle="modal" data-bs-target="#{{ $gallery_id }}" 
+               data-bs-slide-to="{{ $index }}" aria-label="Slide {{ add $index 1 }}" 
+               style="display: block; break-inside: avoid; opacity: 0; transform: translateY(10px); transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease-in-out !important; overflow: hidden; border-radius: 0; margin-bottom: {{ $gap }};"> 
+                
+                {{ if $is_gif }}
+                    <img src="{{ $resource.RelPermalink }}" alt="{{ $alt_text }}" class="{{ $class }}" style="width: 100%; height: auto; display: block;" loading="eager">
+                {{ else }}
+                    {{ partial "paige/image.html" (dict "Page" $.Page "resource" $resource "alt" $alt_text "width" "100%" "class" $class "loading" "eager" "process" $thumbnail_process) }}
+                {{ end }}
+            </a> 
+        {{ end }} 
+    </div>
+</div>
+
+<div class="modal fade" id="{{ $gallery_id }}" tabindex="-1" aria-hidden="true" style="outline: none;"> 
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 90vw;"> 
+        <div class="modal-content bg-transparent border-0"> 
+            <div class="modal-header border-0 pb-4 justify-content-end"> 
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button> 
+            </div> 
+            <div class="modal-body pt-0 px-2 text-center"> 
+                <div id="carousel-{{ $gallery_id }}" class="carousel slide" data-bs-interval="false"> 
+                    <div class="carousel-inner"> 
+                        {{ range $index, $resource := $resources }} 
+                            <div class="carousel-item {{ if eq $index 0 }}active{{ end }}"> 
+                                <img src="{{ $resource.RelPermalink }}" class="d-block img-fluid" alt="Gallery Image" style="max-height: 80vh; margin: 0 auto; object-fit: contain;"> 
+                            </div> 
+                        {{ end }} 
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $gallery_id }}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $gallery_id }}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div> 
+
+<script>
+    (function() {
+        function initGalleryStagger() {
+            const container = document.getElementById("grid-{{ $gallery_id }}");
+            if (!container) return;
+            const items = container.querySelectorAll('.magnify-target');
+            items.forEach((item, index) => {
+                const img = item.querySelector('img');
+                const triggerFade = () => {
+                    const delay = 100 + (index * 30);
+                    setTimeout(() => {
+                        item.style.opacity = "1";
+                        item.style.transform = "translateY(0)";
+                    }, delay);
+                };
+                if (img && img.complete) triggerFade();
+                else if (img) img.addEventListener('load', triggerFade);
+            });
+        }
+        
+        const modalElement = document.getElementById("{{ $gallery_id }}");
+        const carouselElement = document.getElementById("carousel-{{ $gallery_id }}");
+        if (modalElement && carouselElement) {
+            let isModalOpen = false;
+
+            modalElement.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget; 
+                const slideTo = button ? button.getAttribute('data-bs-slide-to') : null;
+                if (slideTo !== null) {
+                    const index = parseInt(slideTo, 10);
+                    setTimeout(() => {
+                        let carouselInstance = bootstrap.Carousel.getInstance(carouselElement) || new bootstrap.Carousel(carouselElement, { interval: false });
+                        carouselInstance.to(index);
+                    }, 10);
+                }
+            });
+
+            modalElement.addEventListener('shown.bs.modal', function() {
+                isModalOpen = true;
+            });
+
+            modalElement.addEventListener('hide.bs.modal', function() {
+                isModalOpen = false;
+            });
+
+            // Global document level listener bypasses focus entirely
+            document.addEventListener('keydown', function(e) {
+                if (!isModalOpen) return;
+                
+                let carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+                if (!carouselInstance) return;
+
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    carouselInstance.prev();
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    carouselInstance.next();
+                }
+            });
+
+            modalElement.addEventListener('click', function(e) {
+                const isImg = e.target.tagName === 'IMG';
+                const isControl = e.target.closest('.carousel-control-prev') || e.target.closest('.carousel-control-next');
+                
+                if (!isImg && !isControl) {
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) modalInstance.hide();
+                }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", initGalleryStagger);
+    })();
+</script>
+
+<style> 
+.paige-modal-gallery a img,
+.paige-modal-gallery a picture img {
+    width: 102% !important;
+    height: auto !important;
+    margin-left: -1%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+    backface-visibility: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+}
+.grayscale-thumbnail img,
+.grayscale-thumbnail picture img {
+    filter: grayscale(100%) !important;
+    transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+.grayscale-thumbnail:hover img,
+.grayscale-thumbnail:hover picture img {
+    filter: grayscale(0%) !important;
+}
+.magnify-target {
+    display: block;
+    position: relative;
+    background-color: #ffffff !important;
+    clip-path: inset(0.5px);
+    transform: translateZ(0);
+    overflow: hidden;
+}
+.magnify-target::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 1px solid #ffffff; 
+    pointer-events: none;
+    z-index: 10;
+}
+.magnify-target:hover img,
+.magnify-target:hover picture img {
+    transform: scale(1.1) translateZ(0) !important;
+}
+.modal-body { display: flex; flex-direction: column; justify-content: center; } 
+.carousel-item.active { display: flex !important; justify-content: center; }
+.carousel-control-prev, .carousel-control-next { width: 5%; }
+</style>

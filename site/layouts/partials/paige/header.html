@@ -41,6 +41,24 @@
     .header-grow:hover {
         transform: scale(1.08) !important;
     }
+
+    /* 5. GLOBAL WINDOW SCROLL RESET */
+    /* Breaks the layout free from isolated wrappers so every page scrolls natively */
+    html, body {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: visible !important;
+        overflow-y: auto !important;
+    }
+
+    /* Strips scroll hijacking properties from standard containers and Paige layout blocks */
+    #wrapper, #main, .main-container, .page-wrapper, #page,
+    #paige-root, #paige-content, .paige-container, main {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: visible !important;
+        overflow-y: visible !important;
+    }
 </style>
 
 <header id="paige-header" class="container-fluid py-3">

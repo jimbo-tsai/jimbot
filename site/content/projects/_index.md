@@ -1,4 +1,6 @@
 ---
+title: ""
 description: ""
-title: "Personal Projects"
+hide_title: true
 ---
+

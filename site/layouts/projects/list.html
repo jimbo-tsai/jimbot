@@ -1,24 +1,76 @@
 {{ define "main" }}
 
 <style>
+  /* Restricted width container matching block two */
+  .content-limiter {
+    max-width: 70vw; 
+    margin: 0 auto;    
+    padding: 0 1.5rem; 
+  }
+
+  /* Robust left-to-right Masonry layout using Flex columns */
+  .masonry-wrapper {
+    display: flex;
+    gap: 1.5rem; /* Explicit horizontal spacing between columns */
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .masonry-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Explicit vertical spacing between images—GUARANTEES consistent gaps */
+    min-width: 0;
+  }
+
   /* Optimized CSS for GPU performance */
-  .jimmy-card-wrapper { opacity: 0; transform: translateY(15px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; will-change: opacity, transform; }
+  .jimmy-card-wrapper { 
+    opacity: 0; 
+    transform: translateY(15px); 
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out; 
+    will-change: opacity, transform; 
+    width: 100%;           
+  }
   .jimmy-card-wrapper.revealed { opacity: 1; transform: translateY(0); }
   
-  /* Image Gallery Container */
-  .jimmy-card-container { overflow: hidden; position: relative; height: 300px; display: block; background-color: #eee; }
-  .jimmy-zoom-img { transition: transform 0.5s ease-out !important; object-fit: cover; display: block; width: 100%; height: 100%; }
+  /* Image Gallery Container adapted to retain natural aspect ratios */
+  .jimmy-card-container { overflow: hidden; position: relative; height: auto; display: block; background-color: #eee; border-radius: 0px; }
+  .jimmy-zoom-img { transition: transform 0.5s ease-out !important; object-fit: contain; display: block; width: 100%; height: auto; }
   .jimmy-card-container:hover .jimmy-zoom-img { transform: scale(1.05) !important; }
-  .jimmy-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 1.5rem 1rem; text-align: center; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); pointer-events: none; z-index: 2; }
 
-  /* Page Title Styling - BOLDED */
+  /* Full image overlay initialized as transparent matching block two */
+  .jimmy-overlay { 
+    position: absolute; 
+    top: 0;
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    padding: 1rem; 
+    background-color: transparent; 
+    pointer-events: none; 
+    z-index: 2; 
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    display: flex;
+    align-items: flex-end;    
+    justify-content: flex-start; 
+  }
+
+  /* Show the bright dynamic overlay on hover */
+  .jimmy-card-container:hover .jimmy-overlay {
+    opacity: 1;
+  }
+
+  /* Page Title Styling - Updated matching block two typography choices */
   .page-title {
     margin-bottom: 3rem;
     font-family: 'Lexend Deca', sans-serif;
-    text-transform: uppercase;
+    text-transform: lowercase;
     letter-spacing: 2px;
-    font-weight: 900; /* Extra bold */
+    font-weight: 900; 
     font-size: 2.5rem;
+    text-align: center;
   }
 
   /* --- VIDEO SPECIFIC CSS --- */
@@ -41,14 +93,11 @@
     border: 0;
   }
 
-  /* Text Area - WIDER & LEFT ALIGNED */
+  /* Text Area - LEFT ALIGNED & fitted inside content-limiter */
   .category-description {
     margin-top: 4rem;
     padding: 1rem 0;
     text-align: left;
-    max-width: 80vw;  /* Increased width */
-    margin-left: auto;
-    margin-right: auto;
   }
   
   .bottom-video-grid {
@@ -57,80 +106,136 @@
   }
 </style>
 
-<!-- BOLD PAGE TITLE -->
-<div class="container text-center">
-  <h1 class="page-title"><strong>{{ .Title }}</strong></h1>
-</div>
+<div class="content-limiter">
 
-<!-- 1. THE MAIN GALLERY -->
-<div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center" id="collections-grid">
-  {{- range .Pages }}
-    <div class="col jimmy-card-wrapper">
-      <div class="jimmy-card-container">
-        <a href="{{ .RelPermalink }}" class="text-decoration-none">
-          {{- $dirName := path.Base .File.Dir }}
-          {{- $fileName := printf "projects/%s.jpg" $dirName }}
-          {{- $img := resources.Get $fileName }}
+  {{/* <div class="container">
+    <h1 class="page-title"><strong>{{ .Title | lower }}</strong></h1>
+  </div>
+*/}}
 
-          {{- if $img }}
-            {{- $thumb := $img.Fill "600x400 Center q80" }}
-            <img src="{{ $thumb.RelPermalink }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async">
-          {{- else }}
-            <img src="{{ printf "projects/%s.jpg" $dirName | relURL }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async">
-          {{- end }}
+  <div class="masonry-wrapper">
+    <div class="masonry-column" id="col-0"></div>
+    <div class="masonry-column" id="col-1"></div>
+    <div class="masonry-column" id="col-2"></div>
 
-          <div class="jimmy-overlay">
-            <h5 class="text-white fw-bold mb-0 text-uppercase" style="font-family: 'Lexend Deca', sans-serif; letter-spacing: 1px;">
-                {{ .Title }}
-            </h5>
+    <div id="raw-items-source" style="display: none;">
+      {{- range .Pages }}
+        <div class="jimmy-card-wrapper">
+          <div class="jimmy-card-container">
+            <a href="{{ .RelPermalink }}" class="text-decoration-none">
+              {{- $dirName := path.Base .File.Dir }}
+              {{- $fileName := printf "projects/%s.jpg" $dirName }}
+              {{- $img := resources.Get $fileName }}
+
+              {{- if $img }}
+                {{- $thumb := $img.Resize "600x q80" }}
+                <img src="{{ $thumb.RelPermalink }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async" crossorigin="anonymous">
+              {{- else }}
+                <img src="{{ printf "projects/%s.jpg" $dirName | relURL }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async" crossorigin="anonymous">
+              {{- end }}
+
+              <div class="jimmy-overlay">
+                <span class="text-white mb-0 text-lowercase" style="font-family: 'Lexend Deca', sans-serif; letter-spacing: 1px; font-size: calc(0.5rem + 0.8vw); font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">
+                    {{ .Title | lower }}
+                </span>
+              </div>
+            </a>
           </div>
-        </a>
-      </div>
+        </div>
+      {{- end }}
     </div>
-  {{- end }}
-</div>
+  </div>
 
-<!-- 2. OPTIONAL BOTTOM TEXT (LEFT ALIGNED & WIDE) -->
-{{ with .Params.bottom_text }}
-<div class="container">
-    <div class="category-description">
-        {{ . | markdownify }}
-    </div>
-</div>
-{{ end }}
-
-<!-- 3. YOUTUBE VIDEO GRID -->
-{{ with .Params.bottom_videos }}
-<div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center bottom-video-grid">
-  {{ range . }}
-    <div class="col">
-      <div class="jimmy-video-aspect-container shadow-sm">
-        <iframe 
-          src="https://www.youtube.com/embed/{{ . }}" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
+  {{ with .Content }}
+  <div class="category-description">
+      {{ . }}
+  </div>
   {{ end }}
+
+  {{ with .Params.bottom_videos }}
+  <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center bottom-video-grid">
+    {{ range . }}
+      <div class="col">
+        <div class="jimmy-video-aspect-container shadow-sm">
+          <iframe 
+            src="https://www.youtube.com/embed/{{ . }}" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
 </div>
-{{ end }}
 
 <script>
   (function() {
-    function initCollectionsWaterfall() {
-        const grid = document.getElementById('collections-grid');
-        if (!grid) return;
-        const cards = grid.querySelectorAll('.jimmy-card-wrapper');
+    function applyBrightAverageColor(img, overlayEl) {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 10;
+        canvas.height = 10;
         
+        ctx.drawImage(img, 0, 0, 10, 10);
+        const imgData = ctx.getImageData(0, 0, 10, 10).data;
+        
+        let r = 0, g = 0, b = 0, count = 0;
+        for (let i = 0; i < imgData.length; i += 4) {
+          r += imgData[i];
+          g += imgData[i+1];
+          b += imgData[i+2];
+          count++;
+        }
+        
+        r = Math.floor(r / count);
+        g = Math.floor(g / count);
+        b = Math.floor(b / count);
+
+        const maxVal = Math.max(r, g, b, 1);
+        const boostFactor = 210 / maxVal; 
+        if (boostFactor > 1) {
+          r = Math.min(Math.floor(r * boostFactor), 255);
+          g = Math.min(Math.floor(g * boostFactor), 255);
+          b = Math.min(Math.floor(b * boostFactor), 255);
+        }
+
+        overlayEl.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
+      } catch (e) {
+        overlayEl.style.backgroundColor = 'rgba(100, 100, 100, 0.8)';
+      }
+    }
+
+    function initCollectionsWaterfall() {
+        const sourceContainer = document.getElementById('raw-items-source');
+        if (!sourceContainer) return;
+        const rawCards = sourceContainer.querySelectorAll('.jimmy-card-wrapper');
+        
+        // Distribute cards sequentially left-to-right into the 3 columns
+        rawCards.forEach((card, index) => {
+          const colIndex = index % 3;
+          const targetCol = document.getElementById(`col-${colIndex}`);
+          if (targetCol) {
+            targetCol.appendChild(card);
+          }
+        });
+
+        // Set up clean lazy intersection animations
+        const processedCards = document.querySelectorAll('.masonry-column .jimmy-card-wrapper');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     const card = entry.target;
                     const img = card.querySelector('img');
+                    const overlay = card.querySelector('.jimmy-overlay');
+                    
                     if (img) {
                         img.decode().then(() => {
-                            const index = Array.from(cards).indexOf(card);
+                            if (overlay) applyBrightAverageColor(img, overlay);
+                            
+                            const index = Array.from(processedCards).indexOf(card);
                             setTimeout(() => {
                                 window.requestAnimationFrame(() => { card.classList.add('revealed'); });
                             }, (index % 3) * 120); 
@@ -143,9 +248,9 @@
                     observer.unobserve(card);
                 }
             });
-        }, { threshold: 0.05, rootMargin: "50px" });
+        }, { threshold: 0.01, rootMargin: "100px" });
         
-        cards.forEach(card => observer.observe(card));
+        processedCards.forEach(card => observer.observe(card));
     }
 
     if (document.readyState === "loading") {
