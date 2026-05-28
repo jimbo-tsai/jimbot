@@ -10,11 +10,15 @@ weight: 5
 
 {{< paige/youtube "sQ5if51uSE8" >}}
 
->El Palo Alto is a coastal redwood tree nestled in between the cities of Palo Alto and Menlo Park. It once served as a marker for the explorers and settlers, and now it serves as a symbol for Stanford, Palo Alto, and many more. This documentary discusses the history and the health of El Palo Alto, with exclusive insight into  the most recent health study of the tree. 
+{{% box color="yellow" %}}
+El Palo Alto is a coastal redwood tree nestled in between the cities of Palo Alto and Menlo Park. It once served as a marker for the explorers and settlers, and now it serves as a symbol for Stanford, Palo Alto, and many more. This documentary discusses the history and the health of El Palo Alto, with exclusive insight into  the most recent health study of the tree. 
+{{% /box %}}
+
 
 >Big thanks to Robert Booty of Arborist OnSite, who conducted the health study and compiled the report on the tree. This project wouldn’t be possible without his contributions providing both footage and expertise in the subject. 
 
 >This project is a completion of my older documentary, filling in gaps and introducing more interesting stories and the technicalities of the health of the tree. Huge thanks to all those who have supported me in this endeavor.
+
 
 * **Filmed, Edited, and Produced by**
     * Jimmy Tsai
@@ -25,4 +29,4 @@ weight: 5
 * **Historical Images from**
   * The Palo Alto Historical Society
 
-{{< paige/gallery width="40vw" class="rounded-5" images="*.jpg" />}}
+{{< paige/gallery width="40vw" class="rounded-1" images="*.jpg" />}}

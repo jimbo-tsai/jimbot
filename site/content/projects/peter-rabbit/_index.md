@@ -46,7 +46,7 @@ paige:
 
 <div class="container" style="max-width: 80vw; margin: 0 auto; padding: 0 2vw 5vh 2vw;">
 
-<div style="text-align: left; margin: -6vh 0 0 0 !important; padding: 0;">
+<div style="text-align: center; margin: -6vh 0 0 0 !important; padding: 0;">
 <h1 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: white; margin: 0; padding: 0;"></h1>
 <p style="color: #000000; font-size: 4rem; font-weight: bold; margin: 0; padding: 0; white-space: nowrap;">Peter Rabbit Writing Station</p>
 </div>
@@ -152,6 +152,9 @@ guide rails should be used instead of the 2 demonstrated in our prototype for st
 Additionally, further testing with the flap length of the mailbox slots is encouraged to
 make sure children cannot get their hands stuck in the slots.
 {{% /box %}}
+
+
+{{< masonry-slim images="*.jpg" width="20vw" loading="lazy" process="webp" >}}
 
 
 </div>

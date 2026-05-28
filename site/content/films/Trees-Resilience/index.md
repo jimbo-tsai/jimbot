@@ -21,4 +21,4 @@ weight: 20
 * **Historical Images from**
   * The Palo Alto Historical Society
 
-{{< paige/gallery width="40vw" class="rounded-5" images="*.webp" />}}
+{{< paige/gallery width="40vw" class="rounded-1" images="*.webp" />}}

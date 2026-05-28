@@ -149,6 +149,17 @@ paige:
         object-fit: contain;
     }
 
+    /* FIXED: SMOOTH IMAGE FADE-IN FOR SLIDESHOW IMAGES */
+    .slideshow-slide img {
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+        will-change: opacity;
+    }
+
+    .slideshow-slide img.img-loaded {
+        opacity: 1 !important;
+    }
+
     /* Nav Controls */
     .slide-nav-btn {
         position: absolute;
@@ -199,12 +210,35 @@ paige:
         targets.forEach(t => observer.observe(t));
     }
 
+    /* FIXED: WATCH AND FADE IN SLIDESHOW IMAGES ON LOAD */
+    function initSlideshowFade() {
+        const slideImages = document.querySelectorAll('.slideshow-slide img');
+        
+        slideImages.forEach(img => {
+            // Check if browser has already processed or cached the image
+            if (img.complete && img.naturalWidth > 0) {
+                img.classList.add('img-loaded');
+            } else {
+                img.addEventListener('load', () => {
+                    img.classList.add('img-loaded');
+                });
+                // Fail-safe: display layout if image breaks
+                img.addEventListener('error', () => {
+                    img.classList.add('img-loaded');
+                });
+            }
+        });
+    }
+
     window.loadVideo = function(container) {
         const id = container.getAttribute('data-id');
         container.innerHTML = `<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     };
 
-    document.addEventListener("DOMContentLoaded", initStaggeredFade);
+    document.addEventListener("DOMContentLoaded", () => {
+        initStaggeredFade();
+        initSlideshowFade();
+    });
 })();
 </script>
 

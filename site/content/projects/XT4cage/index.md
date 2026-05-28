@@ -117,6 +117,6 @@ I wanted to create a handle for my Fujifilm X-T4 so I could hold it to stabilize
 </div>
 </div>
 
-{{< paige/gallery width="100%" class="rounded-2" images="cage2.jpg" />}}
+{{< masonry-slim images="*.jpg" width="20vw" loading="lazy" process="webp" >}}
 
 </div>

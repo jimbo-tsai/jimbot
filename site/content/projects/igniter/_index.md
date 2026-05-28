@@ -74,4 +74,6 @@ style="width: 100%; height: 500px; background-color: transparent;">
     
   </div>
 
+{{< masonry-slim images="*.jpg" width="20vw" loading="lazy" process="webp" >}}
+
 </div>

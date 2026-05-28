@@ -8,7 +8,9 @@ weight: 30
 
 {{< paige/youtube "JX5NuzyEhmg" >}}
 
-> A trip through Yosemite and Mammoth Lakes during the yellow fall.
+{{% box color="yellow" %}}
+A trip through Yosemite and Mammoth Lakes during the yellow fall.
+{{% /box %}}
 
-{{< paige/gallery width="40vw" class="rounded-5" images="*.jpg"  />}}
+{{< paige/gallery width="40vw" class="rounded-1" images="*.jpg"  />}}
 

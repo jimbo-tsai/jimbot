@@ -12,13 +12,31 @@ paige:
         background-color: #ffffff !important; /* Force the clean white background wrapper to stay solid while scrolling */
     }
 
-
     .container { padding-top: 0 !important; }
     
     /* Removes default margins/padding from the Hugo gallery bundle container */
     .paige-gallery, .gallery, [class*="gallery"], [class*="bundle"] {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
+    }
+
+    /* FORCE YOUTUBE GRID TO STACK VERTICALLY */
+    .vertical-video-stack > div, 
+    .vertical-video-stack {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        gap: 4vh !important; /* Adds space between the stacked videos */
+    }
+
+    /* Ensures the video players scale nicely when stacked */
+    .vertical-video-stack iframe,
+    .vertical-video-stack .video-wrapper,
+    .vertical-video-stack [class*="video"] {
+        width: 100% !important;
+        max-width: 800px !important; /* Prevents the video from becoming too wide on desktop */
+        margin: 0 auto !important;
     }
 ---
 
@@ -43,8 +61,8 @@ Above are collections of various projects related to Jenga blocks. These are fro
 
 </div>
 
-<div style="margin-top: -4vh !important; padding: 0;">
-{{< youtube_grid "iL8aUmd-bHg" "4CH6rJm7hnc" "WggrtAHOCZs" >}}
+<div class="vertical-video-stack" style="margin-top: -4vh !important; padding: 0;">
+{{< youtube_grid "iL8aUmd-bHg"="Tower Fall" "4CH6rJm7hnc"="Hyperventilation" "WggrtAHOCZs"="Slo Mo Jazz Hands" >}}
 </div>
 
 </div>
