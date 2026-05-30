@@ -3,24 +3,14 @@ categories: ["content", "paige"]
 date: "2022-01-19T11:12:09-05:00"
 title: "Hazel"
 weight: 21
-
 paige:
   style: |
-    #paige-collections, #paige-metadata, #paige-sections, #paige-pages { display: none; }
-    
-    #star-bg, canvas#star-canvas, .paige-star-effect { 
-        position: fixed !important; 
-        z-index: -1 !important; 
-        display: block !important; 
+    /* Force the automatic page title to match your homepage's responsive look */
+    h1, .paige-header-title, #paige-header h1 {
+        font-family: 'Lexend Deca', sans-serif !important;
+        font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
+        text-align: left !important;
     }
-
-    #paige-header {
-        position: sticky !important;
-        top: 0;
-        z-index: 1050 !important;
-        background-color: #ffffff !important; /* Force the clean white background wrapper to stay solid while scrolling */
-    }
-
 ---
 
 <style>

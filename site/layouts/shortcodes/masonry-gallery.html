@@ -1,0 +1,261 @@
+{{/* layouts/shortcodes/masonry-gallery.html */}}
+{{ $images_param := .Get 0 | default (.Get "images") }} 
+{{ $class := .Get "class" | default "rounded-0" }} 
+{{ $grayscale := .Get "grayscale" | default "false" }}
+{{ $resources := slice }} 
+
+{{ if not $images_param }} 
+    {{ with .Page.Resources.ByType "image" }} 
+        {{ $resources = . }}
+    {{ end }} 
+{{ else }} 
+    {{ with $.Page.Resources.Match $images_param }} 
+        {{ $resources = . }} 
+    {{ else }} 
+        {{ $resources = resources.Match $images_param }} 
+    {{ end }} 
+{{ end }} 
+
+{{ $gallery_id := printf "masonryGallery-%s" (md5 $.Page.RelPermalink) }} 
+
+{{/* 📏 A staggered mix of padding sizes to maximize visual contrast between adjacent frames */}}
+{{ $padding_sizes := slice "0.5rem" "0.8rem" "0.4rem" "0.7rem" "0.6rem" "0.5rem" }}
+
+<div class="masonry-outer-container">
+    <div id="grid-{{ $gallery_id }}" class="paige-masonry-grid"> 
+        
+        {{/* 📝 SANITIZED TEXT FLOW: Only renders if text exists and is not just empty whitespace */}}
+        {{ if .Inner }}
+            {{ if ne (strings.TrimSpace .Inner) "" }}
+                <div class="masonry-text-card masonry-grid-item revealed">
+                    {{ .Inner }}
+                </div>
+            {{ end }}
+        {{ end }}
+
+        {{ range $index, $resource := $resources }} 
+            {{ $alt_text := $resource.Title | default (printf "Gallery Image %d" (add $index 1)) }} 
+            {{ $is_gif := eq $resource.MediaType.SubType "gif" }}
+            {{ $thumbnail := $resource.Resize "1000x" }}
+
+            {{/* 🎲 Sequential Modulo Selector: Guarantees varied distributions across all images */}}
+            {{ $padding_index := mod $index 6 }}
+            {{ $frame_padding := index $padding_sizes $padding_index }}
+
+            <a href="#" class="masonry-grid-item {{ if eq $grayscale "true" }}grayscale-thumbnail{{ end }}" 
+               data-bs-toggle="modal" 
+               data-bs-target="#{{ $gallery_id }}" 
+               data-bs-slide-to="{{ $index }}" 
+               aria-label="View image {{ add $index 1 }}"> 
+                
+                {{/* Injected dynamically calculated frame padding */}}
+                <div class="jimmy-color-frame" style="padding: {{ $frame_padding }}; background-color: #eee;">
+                    {{ if $is_gif }}
+                        <img src="{{ $resource.RelPermalink }}" alt="{{ $alt_text }}" class="{{ $class }} jimmy-masonry-img" loading="lazy" decoding="async" crossorigin="anonymous">
+                    {{ else }}
+                        <img src="{{ $thumbnail.RelPermalink }}" alt="{{ $alt_text }}" class="{{ $class }} w-100 h-auto jimmy-masonry-img" loading="lazy" decoding="async" crossorigin="anonymous">
+                    {{ end }}
+                </div>
+            </a> 
+        {{ end }} 
+    </div>
+</div>
+
+<div class="modal fade" id="{{ $gallery_id }}" tabindex="-1" aria-hidden="true"> 
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 95vw;"> 
+        <div class="modal-content bg-transparent border-0"> 
+            <div class="modal-header border-0 pb-2 justify-content-end"> 
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button> 
+            </div> 
+            <div class="modal-body pt-0 px-2 text-center"> 
+                <div id="carousel-{{ $gallery_id }}" class="carousel slide" data-bs-interval="false"> 
+                    <div class="carousel-inner"> 
+                        {{ range $index, $resource := $resources }} 
+                            <div class="carousel-item {{ if eq $index 0 }}active{{ end }}"> 
+                                <img src="{{ $resource.RelPermalink }}" class="d-block img-fluid" alt="Expanded view" style="max-height: 82vh; margin: 0 auto; object-fit: contain;" loading="lazy" decoding="async"> 
+                            </div> 
+                        {{ end }} 
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $gallery_id }}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $gallery_id }}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div> 
+
+<script>
+    (function() {
+        function processImageFrameColor(img, frameEl) {
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 10;
+                canvas.height = 10;
+                
+                ctx.drawImage(img, 0, 0, 10, 10);
+                const imgData = ctx.getImageData(0, 0, 10, 10).data;
+                
+                let r = 0, g = 0, b = 0, count = 0;
+                for (let i = 0; i < imgData.length; i += 4) {
+                    r += imgData[i];
+                    g += imgData[i+1];
+                    b += imgData[i+2];
+                    count++;
+                }
+                
+                r = Math.floor(r / count);
+                g = Math.floor(g / count);
+                b = Math.floor(b / count);
+
+                const maxVal = Math.max(r, g, b, 1);
+                const boostFactor = 215 / maxVal; 
+                if (boostFactor > 1) {
+                    r = Math.min(Math.floor(r * boostFactor), 255);
+                    g = Math.min(Math.floor(g * boostFactor), 255);
+                    b = Math.min(Math.floor(b * boostFactor), 255);
+                }
+
+                frameEl.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            } catch (e) {
+                frameEl.style.backgroundColor = '#f4f4f4';
+            }
+        }
+
+        const grid = document.getElementById("grid-{{ $gallery_id }}");
+        if (!grid) return;
+
+        function initMasonryObserver() {
+            const items = grid.querySelectorAll('.masonry-grid-item');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const item = entry.target;
+                        const img = item.querySelector('.jimmy-masonry-img');
+                        const frame = item.querySelector('.jimmy-color-frame');
+                        
+                        if (img && frame) {
+                            img.decode().then(() => {
+                                processImageFrameColor(img, frame);
+                                window.requestAnimationFrame(() => { item.classList.add('revealed'); });
+                            }).catch(() => {
+                                if (img.complete) processImageFrameColor(img, frame);
+                                item.classList.add('revealed');
+                            });
+                        } else {
+                            item.classList.add('revealed');
+                        }
+                        observer.unobserve(item);
+                    }
+                });
+            }, { rootMargin: '150px', threshold: 0.01 });
+            items.forEach(item => observer.observe(item));
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMasonryObserver);
+        } else {
+            initMasonryObserver();
+        }
+
+        const modalElement = document.getElementById("{{ $gallery_id }}");
+        const carouselElement = document.getElementById("carousel-{{ $gallery_id }}");
+        
+        if (modalElement && carouselElement) {
+            let isModalOpen = false;
+
+            modalElement.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget; 
+                const slideTo = button ? button.getAttribute('data-bs-slide-to') : null;
+                if (slideTo !== null) {
+                    const index = parseInt(slideTo, 10);
+                    setTimeout(() => {
+                        let carouselInstance = bootstrap.Carousel.getInstance(carouselElement) || new bootstrap.Carousel(carouselElement, { interval: false });
+                        carouselInstance.to(index);
+                    }, 10);
+                }
+            });
+
+            modalElement.addEventListener('shown.bs.modal', () => { isModalOpen = true; });
+            modalElement.addEventListener('hide.bs.modal', () => { isModalOpen = false; });
+
+            document.addEventListener('keydown', function(e) {
+                if (!isModalOpen) return;
+                let carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+                if (!carouselInstance) return;
+                if (e.key === 'ArrowLeft') { e.preventDefault(); carouselInstance.prev(); } 
+                else if (e.key === 'ArrowRight') { e.preventDefault(); carouselInstance.next(); }
+            });
+
+            modalElement.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'IMG' && !e.target.closest('.carousel-control-prev') && !e.target.closest('.carousel-control-next')) {
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    if (modalInstance) modalInstance.hide();
+                }
+            });
+        }
+    })();
+</script>
+
+<style> 
+.masonry-outer-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 10vh 2rem 0 2rem; 
+    box-sizing: border-box;
+}
+.paige-masonry-grid {
+    column-count: 2 !important; 
+    column-gap: 5rem !important; 
+    width: 100%;
+}
+.masonry-grid-item {
+    display: inline-block;
+    width: 100%;
+    break-inside: avoid; 
+    margin-bottom: 5rem; 
+    position: relative;
+    opacity: 0;
+    transform: translate3d(0, 15px, 0);
+    transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.8s ease-in-out !important;
+    will-change: transform, opacity;
+}
+.masonry-grid-item.revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+.masonry-grid-item, 
+.masonry-grid-item img, 
+.jimmy-color-frame {
+    border-radius: 0px !important; 
+}
+.jimmy-color-frame {
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.4s ease-out;
+}
+.masonry-grid-item img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: block;
+}
+.masonry-grid-item:hover img {
+    transform: scale(1.02) !important;
+}
+.masonry-text-card {
+    padding: 0 1rem 1rem 0;
+    box-sizing: border-box;
+}
+.carousel-item.active { display: flex !important; justify-content: center; }
+
+@media (max-width: 768px) {
+    .paige-masonry-grid {
+        column-count: 1 !important; 
+    }
+    .masonry-text-card { padding: 0 0 1.5rem 0; }
+}
+</style>

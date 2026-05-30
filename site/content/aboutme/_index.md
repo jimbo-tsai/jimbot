@@ -44,6 +44,13 @@ paige:
     .color-change-target:hover {
         color: #f3a400 !important;
     }
+    
+    /* Force the automatic page title to match your homepage's responsive look */
+    h1, .paige-header-title, #paige-header h1 {
+        font-family: 'Lexend Deca', sans-serif !important;
+        font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
+        text-align: left !important;
+    }
 ---
 
 <div class="enlargening-target">

@@ -5,13 +5,11 @@ title: "Rose"
 weight: 50
 paige:
   style: |
-    #paige-collections, #paige-metadata, #paige-sections, #paige-pages { display: none; }
-
-    #paige-header {
-        position: sticky !important;
-        top: 0;
-        z-index: 1050 !important;
-        background-color: #ffffff !important; /* Force the clean white background wrapper to stay solid while scrolling */
+    /* Force the automatic page title to match your homepage's responsive look */
+    h1, .paige-header-title, #paige-header h1 {
+        font-family: 'Lexend Deca', sans-serif !important;
+        font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
+        text-align: left !important;
     }
 ---
 
