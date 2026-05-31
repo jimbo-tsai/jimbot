@@ -48,7 +48,7 @@ paige:
 
 <div style="text-align: center; margin: -6vh 0 0 0 !important; padding: 0;">
 <h1 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: white; margin: 0; padding: 0;"></h1>
-<p style="color: #000000; font-size: 4rem; font-weight: bold; margin: 0; padding: 0; white-space: nowrap;">6MWT Timer</p>
+<p style="color: #60435f; font-size: 4rem; font-weight: bold; margin: 0; padding: 0; white-space: nowrap;">6MWT Timer</p>
 </div>
 
 <div style="display: block; width: 100%; text-align: center; margin: 4vh auto 2vh auto;">

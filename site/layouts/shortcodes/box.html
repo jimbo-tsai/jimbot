@@ -1,23 +1,22 @@
-{{ $color := .Get "color" | default "yellow" }}
-{{ $bg := "#ffdc94" }}
-{{ $text := "#926200" }}
+{{ $color := .Get "color" | default "teal" }}
+{{ $bg := "#a8dcd9" }}
+{{ $text := "#284e4b" }} <!-- Dark Teal text over the Teal background -->
 
-{{ if eq $color "blue" }}
-  {{ $bg = "#bcd0ff" }}
-  {{ $text = "#002e9b" }}
+{{ if eq $color "plum" }}
+  {{ $bg = "#60435f" }}
+  {{ $text = "#fdf7fa" }}
 {{ end }}
 
-{{ if eq $color "yellow-analagous-1" }}
-  {{ $bg = "#fff694" }}
-  {{ $text = "#796f00" }}
+{{ if eq $color "pink" }}
+  {{ $bg = "#d67ab1" }}
+  {{ $text = "#fdf7fa" }}
 {{ end }}
 
-{{ if eq $color "yellow-analagous-1" }}
-  {{ $bg = "#ffc194" }}
-  {{ $text = "#793200" }}
+{{ if eq $color "blush" }}
+  {{ $bg = "#e2a3c7" }}
+  {{ $text = "#60435f" }}
 {{ end }}
 
-
-<div style="background-color: {{ $bg }}; color: {{ $text }}; padding: 1.25rem; border-radius: 0.5vw; margin-bottom: 1.5rem;">
+<div style="background-color: {{ $bg }}; color: {{ $text }}; padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem;">
   {{ .Inner | markdownify }}
 </div>

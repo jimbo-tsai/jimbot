@@ -1,5 +1,6 @@
 ---
-title: "The Outer Wilds Ventures Log"
+title: "Secret"
+draft: true
 ---
 
 <style>

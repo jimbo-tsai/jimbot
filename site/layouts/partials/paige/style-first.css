@@ -15,3 +15,17 @@
 .paige-summary {
     display: none;
 }
+
+/* 🚀 HIGH-SPECIFICITY OVERRIDE: Targets all title, description, and subtitle variants */
+html body h1, 
+html body .paige-header-title, 
+html body #paige-content h1,
+html body .paige-description,
+html body .paige-header-description,
+html body .paige-subtitle,
+html body .paige-header-subtitle,
+html body .lead,
+html body #paige-content p.lead,
+html body main header p {
+    color: #60435f !important;
+}

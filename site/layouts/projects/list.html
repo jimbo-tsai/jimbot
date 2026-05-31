@@ -34,8 +34,28 @@
   }
   .jimmy-card-wrapper.revealed { opacity: 1; transform: translateY(0); }
   
-  /* Image Gallery Container adapted to retain natural aspect ratios */
-  .jimmy-card-container { overflow: hidden; position: relative; height: auto; display: block; background-color: #eee; border-radius: 0px; }
+  .jimmy-card-container { 
+    overflow: hidden; 
+    position: relative; 
+    height: auto; 
+    display: block; 
+    background-color: transparent; 
+    border-radius: 0px !important; 
+  }
+
+  .jimmy-color-frame,
+  .jimmy-zoom-img {
+    border-radius: 0px !important;
+  }
+
+  /* UPDATED: Configured to hook straight into your build-time CSS color token variable */
+  .jimmy-color-frame {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--card-color, #eee); 
+    transition: background-color 0.4s ease-out;
+  }
+  
   .jimmy-zoom-img { transition: transform 0.5s ease-out !important; object-fit: contain; display: block; width: 100%; height: auto; }
   .jimmy-card-container:hover .jimmy-zoom-img { transform: scale(1.05) !important; }
 
@@ -47,11 +67,14 @@
     left: 0; 
     width: 100%; 
     padding: 1rem; 
-    background-color: transparent; 
+    
+    /* UPDATED: Generates an 80% opacity variant of your light-biased average color natively */
+    background-color: color-mix(in srgb, var(--card-color, #eee) 80%, transparent); 
+    
     pointer-events: none; 
     z-index: 2; 
     opacity: 0;
-    transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     display: flex;
     align-items: flex-end;    
     justify-content: flex-start; 
@@ -108,11 +131,6 @@
 
 <div class="content-limiter">
 
-  {{/* <div class="container">
-    <h1 class="page-title"><strong>{{ .Title | lower }}</strong></h1>
-  </div>
-*/}}
-
   <div class="masonry-wrapper">
     <div class="masonry-column" id="col-0"></div>
     <div class="masonry-column" id="col-1"></div>
@@ -120,19 +138,57 @@
 
     <div id="raw-items-source" style="display: none;">
       {{- range .Pages }}
-        <div class="jimmy-card-wrapper">
+        {{- $dirName := path.Base .File.Dir }}
+        {{- $fileName := printf "projects/%s.jpg" $dirName }}
+        {{- $img := resources.Get $fileName }}
+
+        {{/* 🚀 ADAPTED: Build-time light-biased color average pipeline */}}
+        {{- $dominantColor := "rgb(238, 238, 238)" }}
+        
+        {{- if $img }}
+          {{- $hexMap := dict "0" 0 "1" 1 "2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "7" 7 "8" 8 "9" 9 "a" 10 "b" 11 "c" 12 "d" 13 "e" 14 "f" 15 }}
+          {{- $sumR := 0 }} {{- $sumG := 0 }} {{- $sumB := 0 }} {{- $totalWeight := 0 }}
+
+          {{- if $img.Colors }}
+            {{- range $img.Colors }}
+              {{- $c := lower . }}
+              {{- $r := add (mul (index $hexMap (substr $c 1 1)) 16) (index $hexMap (substr $c 2 1)) }}
+              {{- $g := add (mul (index $hexMap (substr $c 3 1)) 16) (index $hexMap (substr $c 4 1)) }}
+              {{- $b := add (mul (index $hexMap (substr $c 5 1)) 16) (index $hexMap (substr $c 6 1)) }}
+              
+              {{- $lum := add (add (mul $r 299) (mul $g 587)) (mul $b 114) }}
+              {{- $weight := div $lum 1000 }}
+              {{- if eq $weight 0 }}{{ $weight = 1 }}{{ end }}
+              
+              {{- $weightSq := mul $weight $weight }}
+              
+              {{- $sumR = add $sumR (mul $r $weightSq) }}
+              {{- $sumG = add $sumG (mul $g $weightSq) }}
+              {{- $sumB = add $sumB (mul $b $weightSq) }}
+              {{- $totalWeight = add $totalWeight $weightSq }}
+            {{- end }}
+            
+            {{- if gt $totalWeight 0 }}
+              {{- $avgR := div $sumR $totalWeight }}
+              {{- $avgG := div $sumG $totalWeight }}
+              {{- $avgB := div $sumB $totalWeight }}
+              {{- $dominantColor = printf "rgb(%d, %d, %d)" $avgR $avgG $avgB }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+
+        <div class="jimmy-card-wrapper" style="--card-color: {{ $dominantColor | safeCSS }};">
           <div class="jimmy-card-container">
             <a href="{{ .RelPermalink }}" class="text-decoration-none">
-              {{- $dirName := path.Base .File.Dir }}
-              {{- $fileName := printf "projects/%s.jpg" $dirName }}
-              {{- $img := resources.Get $fileName }}
 
-              {{- if $img }}
-                {{- $thumb := $img.Resize "600x q80" }}
-                <img src="{{ $thumb.RelPermalink }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async" crossorigin="anonymous">
-              {{- else }}
-                <img src="{{ printf "projects/%s.jpg" $dirName | relURL }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async" crossorigin="anonymous">
-              {{- end }}
+              <div class="jimmy-color-frame" style="padding: 0.3rem;">
+                {{- if $img }}
+                  {{- $thumb := $img.Resize "600x q80" }}
+                  <img src="{{ $thumb.RelPermalink }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async" crossorigin="anonymous">
+                {{- else }}
+                  <img src="{{ printf "projects/%s.jpg" $dirName | relURL }}" class="jimmy-zoom-img" alt="{{ .Title }}" loading="lazy" decoding="async" crossorigin="anonymous">
+                {{- end }}
+              </div>
 
               <div class="jimmy-overlay">
                 <span class="text-white mb-0 text-lowercase" style="font-family: 'Lexend Deca', sans-serif; letter-spacing: 1px; font-size: calc(0.5rem + 0.8vw); font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">
@@ -172,42 +228,10 @@
 
 <script>
   (function() {
-    function applyBrightAverageColor(img, overlayEl) {
-      try {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 10;
-        canvas.height = 10;
-        
-        ctx.drawImage(img, 0, 0, 10, 10);
-        const imgData = ctx.getImageData(0, 0, 10, 10).data;
-        
-        let r = 0, g = 0, b = 0, count = 0;
-        for (let i = 0; i < imgData.length; i += 4) {
-          r += imgData[i];
-          g += imgData[i+1];
-          b += imgData[i+2];
-          count++;
-        }
-        
-        r = Math.floor(r / count);
-        g = Math.floor(g / count);
-        b = Math.floor(b / count);
-
-        const maxVal = Math.max(r, g, b, 1);
-        const boostFactor = 210 / maxVal; 
-        if (boostFactor > 1) {
-          r = Math.min(Math.floor(r * boostFactor), 255);
-          g = Math.min(Math.floor(g * boostFactor), 255);
-          b = Math.min(Math.floor(b * boostFactor), 255);
-        }
-
-        overlayEl.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.8)`;
-      } catch (e) {
-        overlayEl.style.backgroundColor = 'rgba(100, 100, 100, 0.8)';
-      }
-    }
-
+    /* 🚀 CLIENT RUNTIME CLEANUP COMPLETE: 
+      The JS canvas rendering loops and pixel extraction data computations have been entirely deleted.
+      The engine now purely performs DOM column parsing layout and intersection animations.
+    */
     function initCollectionsWaterfall() {
         const sourceContainer = document.getElementById('raw-items-source');
         if (!sourceContainer) return;
@@ -229,12 +253,9 @@
                 if (entry.isIntersecting) {
                     const card = entry.target;
                     const img = card.querySelector('img');
-                    const overlay = card.querySelector('.jimmy-overlay');
                     
                     if (img) {
                         img.decode().then(() => {
-                            if (overlay) applyBrightAverageColor(img, overlay);
-                            
                             const index = Array.from(processedCards).indexOf(card);
                             setTimeout(() => {
                                 window.requestAnimationFrame(() => { card.classList.add('revealed'); });

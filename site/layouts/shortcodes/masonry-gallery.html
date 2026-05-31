@@ -18,13 +18,12 @@
 
 {{ $gallery_id := printf "masonryGallery-%s" (md5 $.Page.RelPermalink) }} 
 
-{{/* 📏 A staggered mix of padding sizes to maximize visual contrast between adjacent frames */}}
-{{ $padding_sizes := slice "0.5rem" "0.8rem" "0.4rem" "0.7rem" "0.6rem" "0.5rem" }}
+{{/* A staggered mix of padding sizes to maximize visual contrast between adjacent frames */}}
+{{ $padding_sizes := slice "0.8rem" "1rem" "0.8rem" "0.9rem" "1.1rem" "0.9rem" }}
 
 <div class="masonry-outer-container">
     <div id="grid-{{ $gallery_id }}" class="paige-masonry-grid"> 
         
-        {{/* 📝 SANITIZED TEXT FLOW: Only renders if text exists and is not just empty whitespace */}}
         {{ if .Inner }}
             {{ if ne (strings.TrimSpace .Inner) "" }}
                 <div class="masonry-text-card masonry-grid-item revealed">

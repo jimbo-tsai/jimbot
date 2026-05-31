@@ -36,13 +36,16 @@ paige:
         display: block;
     }
 
+    /* UPDATED: Locked base text and icon states to Dark Plum */
     .color-change-target {
+        color: #60435f !important; 
         transition: color 0.4s ease !important;
         text-decoration: none !important; /* Removes underlines/underscores */
     }
 
+    /* KEPT: Main highlights stay bright Petal Pink on mouse hover */
     .color-change-target:hover {
-        color: #f3a400 !important;
+        color: #d67ab1 !important;
     }
     
     /* Force the automatic page title to match your homepage's responsive look */

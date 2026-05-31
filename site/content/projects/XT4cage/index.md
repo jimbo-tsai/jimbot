@@ -14,7 +14,6 @@ paige:
         position: sticky !important;
         top: 0;
         z-index: 1050 !important;
-        background-color: #ffffff !important; /* Force the clean white background wrapper to stay solid while scrolling */
     }
 
     model-viewer {
@@ -28,7 +27,7 @@ paige:
         height: 250px !important; 
     }
     .rig-card {
-        background-color: #f3a400; 
+        background-color: #d67ab1; 
         border-radius: 8px;
         padding: 2vw;
         color: #ffffff !important;
@@ -53,8 +52,7 @@ paige:
 <div class="container" style="max-width: 80vw; margin: 0 auto; padding: 0 2vw 5vh 2vw;">
 
 <div style="text-align: center; margin-bottom: 2vh; padding-top: 2vh;">
-<h1 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: white; margin: 0;">Full Assembly</h1>
-<p style="color: #000000; font-size: 4rem; font-weight: bold; margin: 0;">Fujifilm XT-4 Cage</p>
+<p style="color: #60435f; font-size: 4rem; font-weight: bold; margin: 0;">Fujifilm XT-4 Cage</p>
 </div>
 
 {{% box color="yellow" %}}

@@ -13,8 +13,7 @@ paige:
     #paige-header {
         position: sticky !important;
         top: 0;
-        z-index: 1050 !important;
-        background-color: #ffffff !important; /* Force the clean white background wrapper to stay solid while scrolling */
+        z-index: 1050 !important;   
     }
     
 
@@ -28,7 +27,7 @@ paige:
 
     /* Box now only wraps the text content */
     .rig-card {
-        background-color: #f3a400; 
+        background-color: #d67ab1; 
         border-radius: 20px;
         padding: 2vw;
         color: #ffffff !important;
@@ -48,7 +47,7 @@ paige:
 
 <div style="text-align: center; margin: -6vh 0 0 0 !important; padding: 0;">
 <h1 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: white; margin: 0; padding: 0;"></h1>
-<p style="color: #000000; font-size: 4rem; font-weight: bold; margin: 0; padding: 0; white-space: nowrap;">Peter Rabbit Writing Station</p>
+<p style="color: #60435f; font-size: 4rem; font-weight: bold; margin: 0; padding: 0; white-space: nowrap;">Peter Rabbit Writing Station</p>
 </div>
 
 <div style="display: block; width: 100%; text-align: center; margin: 4vh auto 2vh auto;">
