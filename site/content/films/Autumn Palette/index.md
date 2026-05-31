@@ -14,7 +14,7 @@ paige:
     }
 ---
 
-{{< paige/youtube "JX5NuzyEhmg" >}}
+{{< youtube "JX5NuzyEhmg" >}}
 
 {{% box color="yellow" %}}
 A trip through Yosemite and Mammoth Lakes during the yellow fall.

@@ -1,0 +1,160 @@
+{{ $autoplay := .Get "autoplay" }}
+{{ $controls := .Get "controls" | default true }}
+{{ $description := .Get "description" | default "YouTube video" }}
+{{ $end := .Get "end" }}
+{{ $fullscreen := .Get "fullscreen" | default true }}
+{{ $height := .Get "height" }}
+{{ $list := .Get "list" }}
+{{ $loop := .Get "loop" }}
+{{ $maxheight := .Get "maxheight" }}
+{{ $maxwidth := .Get "maxwidth" }}
+{{ $mute := .Get "mute" }}
+{{ $referrerpolicy := .Get "referrerpolicy" | default "no-referrer-when-downgrade" }}
+{{ $start := .Get "start" }}
+{{ $video := .Get 0 | default (.Get "video") | default "dQw4w9WgXcQ" }}
+{{ $width := .Get "width" }}
+
+{{ if not $video }}
+    {{ errorf "layouts/shortcodes/paige/youtube.html: no video" }}
+{{ end }}
+
+{{ $host := cond site.Config.Privacy.YouTube.PrivacyEnhanced "www.youtube-nocookie.com" "www.youtube.com" }}
+
+{{ $path := "" }}
+
+{{ if $list }}
+    {{ $path = printf "embed?list=%v&listtype=playlist" $list }}
+{{ else }}
+    {{ $path = printf "embed/%v" $video }}
+{{ end }}
+
+{{ $params := slice (print "hl=" (site.LanguageCode | default site.Language.Lang)) "modestbranding=1" }}
+
+{{ if $autoplay }}
+    {{ $params = $params | append "autoplay=1" | append "mute=1" }}
+{{ end }}
+
+{{ if not $controls }}
+    {{ $params = $params | append "controls=0" }}
+{{ end }}
+
+{{ with $end }}
+    {{ $params = $params | append (printf "end=%v" .) }}
+{{ end }}
+
+{{ if not $fullscreen }}
+    {{ $params = $params | append "fs=0" }}
+{{ end }}
+
+{{ if $loop }}
+    {{ $params = $params | append "loop=1" }}
+
+    {{ if $video }}
+        {{ $params = $params | append (printf "playlist=%v" $video) }}
+    {{ end }}
+{{ end }}
+
+{{ if $mute }}
+    {{ $params = $params | append "mute=1" }}
+{{ end }}
+
+{{ with $start }}
+    {{ $params = $params | append (printf "start=%v" .) }}
+{{ end }}
+
+{{ $params = delimit ($params | sort) "&" }}
+
+{{ $src := print "https://" $host "/" $path }}
+
+{{ with $params }}
+    {{ $src = print $src "?" . }}
+{{ end }}
+
+<!-- 🚀 SKELETON LOADER INTEGRATION STYLE BLOCK -->
+<style>
+    .paige-youtube-skeleton-wrapper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background-color: #f6eff3;
+    }
+
+    .paige-youtube-skeleton {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+        background: linear-gradient(90deg, #f6eff3 25%, #eddfe7 50%, #f6eff3 75%);
+        background-size: 200% 100%;
+        animation: paigeYoutubeShimmer 1.6s infinite linear;
+        transition: opacity 0.4s ease-out, visibility 0.4s;
+        will-change: opacity;
+    }
+
+    @keyframes paigeYoutubeShimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    .paige-youtube-skeleton-wrapper .paige-youtube {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        will-change: opacity;
+    }
+
+    /* Target state when the iframe loading hook resolves */
+    .paige-youtube-skeleton-wrapper.video-ready .paige-youtube {
+        opacity: 1;
+    }
+
+    .paige-youtube-skeleton-wrapper.video-ready .paige-youtube-skeleton {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+</style>
+
+<div class="paige-youtube-skeleton-wrapper" style="{{ with $width }}width: {{ . }};{{ end }} {{ with $maxwidth }}max-width: {{ . }};{{ end }}">
+    
+    <!-- Shimmering Layer Overlay -->
+    <div class="paige-youtube-skeleton"></div>
+
+    <div class="paige-youtube">
+        {{ partial "paige/video.html" (dict
+            "fullscreen" $fullscreen
+            "height" $height
+            "maxheight" $maxheight
+            "maxwidth" $maxwidth
+            "referrerpolicy" $referrerpolicy
+            "src" $src
+            "title" $description
+            "width" $width
+        ) }}
+    </div>
+
+    <!-- Scoped execution runtime handler to cleanly toggle state layers -->
+    <script>
+        (function() {
+            const currentShell = document.currentScript.parentElement;
+            const targetVideo = currentShell.querySelector('iframe');
+
+            if (targetVideo) {
+                // If the browser already has the iframe loaded or cached, reveal immediately
+                if (targetVideo.complete || targetVideo.readyState === 'complete') {
+                    currentShell.classList.add('video-ready');
+                } else {
+                    targetVideo.addEventListener('load', function() {
+                        window.requestAnimationFrame(function() {
+                            currentShell.classList.add('video-ready');
+                        });
+                    });
+                }
+            } else {
+                // Safe programmatic fallback protection
+                currentShell.classList.add('video-ready');
+            }
+        })();
+    </script>
+</div>

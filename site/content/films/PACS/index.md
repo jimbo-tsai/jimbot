@@ -14,7 +14,7 @@ paige:
         text-align: left !important;
     }
 ---
-{{< paige/youtube "i_41dHO3eHc" >}}
+{{< youtube "i_41dHO3eHc" >}}
 
 {{% box color="yellow" %}}
 Filmed for the the 2024 Chinese New Year Celebrations at Palo Alto Chinese School. 

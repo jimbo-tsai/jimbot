@@ -55,7 +55,7 @@ paige:
 
   <!-- UPDATED: Swapped legacy yellow to new high-contrast teal shortcode setup -->
   {{% box color="teal" %}}
-As part of the NUSTARS Propulsion team, we designed an augmented spark igniter (ASI) and igniter test stand to safely and effectively gather test data. The ASI uses a mixture of gaseous oxygen and liquid ethanol to create combustion, releasing energy ~6% of the main engine. The fuel-rich combustion is primarily controlled by pressure on the fuel and oxygen (changes mass flow rate and type of combustion). My primary focus was on safely constructing the igniter test stand and developing testing protocols. The test stand was first designed through a P&ID, then correctly specced to the the specific valves and pressure transducers needed at each point. The CAD was develeoped thereafter and constructed accordingly. Testing protocols were developed in Epsilon3 and used to conduct safe testing.
+As part of the NUSTARS Propulsion team, we designed an augmented spark igniter (ASI) and igniter test stand to safely and effectively gather test data. The ASI uses a mixture of gaseous oxygen and liquid ethanol to create combustion, releasing energy ~6% of the main engine. The fuel-rich combustion is primarily controlled by pressure on the fuel and oxygen (changes mass flow rate and type of combustion). My primary focus was on safely constructing the igniter test stand and developing testing protocols. The test stand was first designed through a P&ID, then correctly specced to the the specific valves and pressure transducers needed at each point. The CAD was develeoped thereafter and constructed accordingly. Testing protocols were developed in Epsilon3 and used during each hotfire to ensure officer safety. 
   {{% /box %}}
 
   <div class="flex-container" style="display: flex; align-items: center; gap: 4vw; flex-wrap: wrap; margin-top: 4vh;">
@@ -82,7 +82,7 @@ As part of the NUSTARS Propulsion team, we designed an augmented spark igniter (
 
 <!-- UPDATED: Swapped legacy blue to new blush accent configuration -->
 {{% box color="blush" %}}
-Additionally, we manually milled the augmented spark igniter design on a manual mill. I got to learn and experience the joys of milling and tapping(!) 304 stainless steel. Being on the team has definitely challenged me in all sorts of ways, whether that be learning to teflon sealing threads, oxygen cleaning, leak testing, or using pressure regulators.
+The augmented spark igniter was designed to be easily made on a manual mill, through the process took quite a while. I got to learn how to cut, mill, and tap 304 stainless steel to a 10 thou tolerance. In the process of constructing the igniter + test stand, I learned how to use teflon tape to seal threads, how oxygen clean to prevent contaminant ignition, how to leak test, how to use pressure regulators, and more. We also did compressed gas training in order to safely handle gas cylinders and conduct hot fires.
 {{% /box %}}
 
 <div style="width: 100%; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 2vw; flex-wrap: nowrap; margin: 4vh 0;">

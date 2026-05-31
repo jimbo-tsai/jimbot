@@ -16,7 +16,7 @@ paige:
     }
 ---
 
-{{< paige/youtube "sQ5if51uSE8" >}}
+{{< youtube "sQ5if51uSE8" >}}
 
 {{% box color="yellow" %}}
 El Palo Alto is a coastal redwood tree nestled in between the cities of Palo Alto and Menlo Park. It once served as a marker for the explorers and settlers, and now it serves as a symbol for Stanford, Palo Alto, and many more. This documentary discusses the history and the health of El Palo Alto, with exclusive insight into  the most recent health study of the tree. 
