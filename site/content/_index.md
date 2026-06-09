@@ -115,7 +115,7 @@ paige:
 
 {{< masonry-gallery class="rounded-0" >}}{{< /masonry-gallery >}}
 
-<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6vh 0; margin-top: 8vh;">
+<div style="width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; padding: 6vh 0; margin-top: 4xvh;">
     <div id="video-section-container" style="display: flex; flex-direction: column; gap: 3vh; align-items: flex-start; justify-content: center; width: 90%; max-width: 1400px; margin: 0 auto; text-align: left;">
 
 <div style="width: 100%; color: #228B22; padding: 1vw; text-align: left;">

@@ -25,7 +25,6 @@
         z-index: 1040 !important;
         background-color: #fdf7fa !important; 
         border: none !important;
-        /* 🚀 FIXED: Removed box-shadow entirely to eliminate the fake shade line split */
         box-shadow: none !important; 
     }
 
@@ -46,7 +45,6 @@
         -webkit-font-smoothing: antialiased;
     }
 
-    /* 🚀 FIXED: Applied absolute color uniformity to the body and layout framework wrappers */
     html body,
     #wrapper, 
     #main, 
@@ -150,6 +148,7 @@
         min-width: 130px !important;
         box-shadow: 0 12px 32px rgba(96, 67, 95, 0.08) !important; 
         display: none;
+        z-index: 1060 !important; 
     }
 
     .dropdown-menu.show {
@@ -176,12 +175,80 @@
         overflow: visible !important;
         overflow-y: visible !important;
     }
+
+    /* 📱 RESPONSIVE MOBILE MENU ADDITIONS */
+    .paige-toggle-btn {
+        display: none !important;
+        background: transparent !important;
+        border: none !important;
+        color: var(--clr-dark) !important;
+        font-size: 1.85rem !important;
+        cursor: pointer;
+        padding: 0 !important;
+        line-height: 1 !important;
+        transition: color 0.2s ease;
+    }
+    
+    .paige-toggle-btn:hover {
+        color: var(--clr-medium) !important;
+    }
+
+    @media (max-width: 991.98px) {
+        .paige-toggle-btn {
+            display: block !important;
+        }
+
+        #paige-header .d-flex.align-items-center.justify-content-between {
+            flex-wrap: wrap !important;
+        }
+
+        .paige-brand-col {
+            flex: 1 !important;
+            text-align: left !important;
+        }
+
+        /* Collapse menu columns out of sight by default on mobile */
+        .paige-menu-col,
+        .paige-socials-col {
+            display: none !important;
+            flex: 0 0 100% !important;
+            width: 100% !important;
+            text-align: center !important;
+        }
+
+        /* 🚀 FIXED: Forcing stacking contexts so menu sits absolutely on top of socials */
+        .paige-menu-col {
+            order: 3 !important;
+            padding-top: 1.5rem !important;
+            position: relative !important;
+            z-index: 1050 !important; /* Higher layer priority */
+        }
+        
+        .paige-socials-col {
+            order: 4 !important;
+            padding-top: 1.25rem !important;
+            padding-bottom: 0.5rem !important;
+            position: relative !important;
+            z-index: 1040 !important; /* Lower layer priority */
+        }
+
+        .paige-socials-col .d-flex {
+            justify-content: center !important;
+        }
+
+        /* Reveals the stacked links smoothly when active class is toggled */
+        #paige-header.menu-active .paige-menu-col,
+        #paige-header.menu-active .paige-socials-col {
+            display: block !important;
+            animation: paigeDropdownFadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+        }
+    }
 </style>
 
 <header id="paige-header" class="container-fluid py-3 px-4 px-lg-5">
     <div class="d-flex align-items-center justify-content-between">
 
-        <div style="flex: 1; text-align: left;">
+        <div class="paige-brand-col" style="flex: 1; text-align: left;">
             <a class="navbar-brand header-grow" 
                href="{{ .Site.BaseURL }}" 
                style="font-family: 'Lexend Deca', sans-serif !important; font-weight: 700 !important; font-size: 1.4rem; letter-spacing: 0.05rem; color: var(--clr-dark); text-decoration: none; line-height: 1;">
@@ -189,11 +256,15 @@
             </a>
         </div>
 
-        <div style="flex: 0 1 auto;">
+        <button id="paige-menu-toggle" class="paige-toggle-btn d-lg-none" aria-label="Toggle Navigation">
+            <i class="bi bi-list" id="paige-toggle-icon"></i>
+        </button>
+
+        <div class="paige-menu-col" style="flex: 0 1 auto;">
             {{ partial "paige/menu.html" . }}
         </div>
         
-        <div style="flex: 1; text-align: right;">
+        <div class="paige-socials-col" style="flex: 1; text-align: right;">
             <div class="d-flex justify-content-end gap-3">
                 <a href="https://www.youtube.com/channel/UCQulP0uyasw93322XVnpvZQ" 
                    target="_blank" 
@@ -214,3 +285,25 @@
 
     </div>
 </header>
+
+<script>
+    (function () {
+        const toggleBtn = document.getElementById('paige-menu-toggle');
+        const header = document.getElementById('paige-header');
+        const toggleIcon = document.getElementById('paige-toggle-icon');
+
+        if (toggleBtn && header && toggleIcon) {
+            toggleBtn.onclick = function () {
+                header.classList.toggle('menu-active');
+                
+                if (header.classList.contains('menu-active')) {
+                    toggleIcon.classList.remove('bi-list');
+                    toggleIcon.classList.add('bi-x');
+                } else {
+                    toggleIcon.classList.remove('bi-x');
+                    toggleIcon.classList.add('bi-list');
+                }
+            };
+        }
+    })();
+</script>

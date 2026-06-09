@@ -42,5 +42,5 @@ paige:
 </style>
 
 {{< slideshow images="*.jpg" >}}
-We do not have much connection, you and I. Still, this encounter feels special. I hope you won’t mind if I think of you as a friend.
+Lavender is a really pretty color.
 {{< /slideshow >}}

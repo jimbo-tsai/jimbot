@@ -16,6 +16,24 @@ paige:
         z-index: 1050 !important;
     }
 
+    /* NEW: Fluid entrance vector keyframes */
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* NEW: Combined layout block animation container */
+    .project-animate-wrapper {
+        opacity: 0;
+        animation: slideUpFade 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
     model-viewer {
         width: 100%;
         height: 350px;
@@ -51,6 +69,9 @@ paige:
 
 <div class="container" style="max-width: 80vw; margin: 0 auto; padding: 0 2vw 5vh 2vw;">
 
+<!-- Wrapped everything inside the new animation envelope -->
+<div class="project-animate-wrapper">
+
 <div style="text-align: center; margin-bottom: 2vh; padding-top: 2vh;">
 <p style="color: #60435f; font-size: 4rem; font-weight: bold; margin: 0;">Fujifilm XT-4 Cage</p>
 </div>
@@ -67,13 +88,13 @@ I wanted to create a handle for my Fujifilm X-T4 so I could hold it to stabilize
     <h3 style="font-family: 'Lexend Deca', sans-serif; margin-top: 0; color: #ffffff;">Specs</h3>
     <ul style="line-height: 1.8; list-style-type: none; padding-left: 0; font-size: 0.95rem; color: #ffffff;">
         <li><strong>Size:</strong> 32.1 x 8.3 x 14 cm</li>
-        <li><strong>Weight:</strong> 0.28 kg</li>
+        <li><strong>Weight:</strong> 1.32 kg</li>
         <li><strong>Assembly Time:</strong> 30 min</li>
     </ul>
 </div>
 </div>
 
-<div class="flex-container" style="display: flex; align-items: stretch; gap: 2vw; flex-wrap: wrap; margin-top: 8vh; margin-bottom: 2vh;">
+<div class="flex-container" style="display: flex; align-items: stretch; gap: 2vw; flex-wrap: wrap; margin-top: 4vh; margin-bottom: 2vh;">
 <div style="flex: 1; min-width: 20vw;">
     <div class="rig-card" style="width: 100%; height: 420px; display: flex; flex-direction: column; justify-content: center;">
         <h3 style="font-family: 'Lexend Deca', sans-serif; margin-top: 0; color: #ffffff;">Materials</h3>
@@ -96,9 +117,8 @@ I wanted to create a handle for my Fujifilm X-T4 so I could hold it to stabilize
 </div>
 </div>
 
-<div style="text-align: left; margin-bottom: 2vh; padding-top: 2vh;">
-<h1 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: white; margin: 0;">DIY Camera Rig</h1>
-<p style="color: #000000; font-size: 1.1rem; font-weight: bold; margin: 0;">XT-4 Attachment Base</p>
+<div style="text-align: left; margin-bottom: 2vh; padding-top: 12vh;">
+<h1 style="font-family: 'Lexend Deca', sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: white; margin: 0;">XT-4 Attachment Base</h1>
 </div>
 
 <div class="flex-container" style="display: flex; align-items: stretch; max-height: 250px; gap: 2vw; margin-top: 4vh; margin-bottom: 6vh; overflow: hidden;">
@@ -110,11 +130,13 @@ I wanted to create a handle for my Fujifilm X-T4 so I could hold it to stabilize
     <ul style="line-height: 1.6; list-style-type: none; padding-left: 0; font-size: 0.95rem; color: #ffffff; margin-bottom: 0;">
         <li>Print with black Bambulab PLA</li>
         <li>Gyroid inner pattern and 25% infill.</li> 
-        <li><a href="CameraCageV5.3mf" download style="color: #ffffff; text-decoration: underline;">📥 Download CameraCage_V5</a></li>
+        <li><a href="CameraCageV5.3mf" download style="color: #ffffff; text-decoration: underline;">Download CameraCageV5</a></li>
     </ul>
 </div>
 </div>
+</div>
+</div>
 
-{{< masonry-slim images="*.jpg" width="20vw" loading="lazy" process="webp" >}}
-
+<div style="margin-top: 10vh;">
+    {{< masonry-slim images="*.jpg" width="20vw" loading="lazy" process="webp" >}}
 </div>

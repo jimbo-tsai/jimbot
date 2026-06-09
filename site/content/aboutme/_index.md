@@ -13,6 +13,24 @@ paige:
         display: none;
     }
 
+    /* NEW: Clean entry keyframes for the upward fade-in */
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(15px); /* Controls the distance of the upward movement */
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* NEW: Animation wrapper to seamlessly move all elements as one cohesive block */
+    .about-animate-wrapper {
+        opacity: 0;
+        animation: slideUpFade 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
     .enlargening-target { 
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
         cursor: pointer;
@@ -21,8 +39,9 @@ paige:
         border-radius: 1rem;
         overflow: hidden;
         width: 100%;
-        height: 20rem;
+        height: 20rem; 
         margin-bottom: 2rem;
+        background-color: rgba(96, 67, 95, 0.05); 
     }
 
     .enlargening-target:hover {
@@ -34,16 +53,22 @@ paige:
         height: 100%;
         object-fit: cover;
         display: block;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out !important;
     }
 
-    /* UPDATED: Locked base text and icon states to Dark Plum */
+    .enlargening-target img.loaded {
+        opacity: 1;
+    }
+
+    /* Locked base text and icon states to Dark Plum */
     .color-change-target {
         color: #60435f !important; 
         transition: color 0.4s ease !important;
-        text-decoration: none !important; /* Removes underlines/underscores */
+        text-decoration: none !important; 
     }
 
-    /* KEPT: Main highlights stay bright Petal Pink on mouse hover */
+    /* Main highlights stay bright Petal Pink on mouse hover */
     .color-change-target:hover {
         color: #d67ab1 !important;
     }
@@ -56,8 +81,11 @@ paige:
     }
 ---
 
+<!-- Everything is wrapped here to animate flawlessly without layout popping -->
+<div class="about-animate-wrapper">
+
 <div class="enlargening-target">
-    <img src="selfie_split.jpg" alt="Jimmy Tsai">
+    <img src="selfie_split.jpg" alt="Jimmy Tsai" onload="this.classList.add('loaded')">
 </div>
 
 <div style="max-width: 600px; margin: 0 auto; text-align: justify;">
@@ -76,4 +104,6 @@ paige:
     <a href="mailto:info.jimbot@gmail.com" class="color-change-target">
         <i class="bi bi-envelope" style="font-size: 2rem;"></i>
     </a>
+</div>
+
 </div>

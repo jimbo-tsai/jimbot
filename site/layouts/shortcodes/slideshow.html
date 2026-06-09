@@ -1,4 +1,4 @@
-{{/* Paige Slideshow Shortcode - True Equidistant Image Spacing */}} 
+{{/* Paige Slideshow Shortcode*/}} 
 {{ $images_param := .Get 0 | default (.Get "images") }} 
 {{ $class := .Get "class" | default "rounded-0" }} 
 {{ $resources := slice }} 
@@ -66,6 +66,18 @@
 </div>
 
 <style>
+/* 1. Added Keyframe Animation for Fade In */
+@keyframes componentFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px); /* Optional: Adds a subtle, elegant upward lift */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .paige-slideshow-wrapper {
     width: 100vw;
     position: relative;
@@ -79,6 +91,10 @@
     background: transparent;
     overflow: hidden;
     min-height: 450px;
+
+    /* 2. Tied animation to the element */
+    opacity: 0; 
+    animation: componentFadeIn 1s ease-out forwards;
 }
 
 .slideshow-text-panel {
@@ -100,21 +116,19 @@
     display: flex;
     width: 100%;
     overflow-x: auto;
-    overflow-y: hidden; /* Prevents vertical scroll tracking inside the gallery container */
-    touch-action: pan-x; /* Instructs mobile/trackpad devices to only capture horizontal sweeps */
+    overflow-y: hidden;
+    touch-action: pan-x;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    /* This creates the exact gap structural rule between image containers */
     gap: 40px; 
     padding-left: 20px;
-    padding-right: 40vw; /* Keeps space at the end to scroll seamlessly */
+    padding-right: 40vw;
 }
 .slideshow-track::-webkit-scrollbar { display: none; }
 
 .slideshow-slide {
-    /* Let the width shrink dynamically down to the picture aspect ratio */
     flex: 0 0 auto; 
     scroll-snap-align: start; 
     display: flex;
@@ -123,7 +137,6 @@
 }
 
 .slide-img {
-    /* Explicitly lock sizing logic to viewport widths to create a peek layout */
     width: auto;
     max-width: 65vw; 
     height: auto;

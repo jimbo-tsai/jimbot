@@ -12,6 +12,24 @@ paige:
         background-color: #ffffff !important; /* Force the clean white background wrapper to stay solid while scrolling */
     }
 
+    /* Fluid entrance vector keyframes */
+    @keyframes slideUpFade {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Combined layout block animation container */
+    .project-animate-wrapper {
+        opacity: 0;
+        animation: slideUpFade 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
     .container { padding-top: 0 !important; }
     
     /* Removes default margins/padding from the Hugo gallery bundle container */
@@ -42,6 +60,8 @@ paige:
 
 <div class="container" style="max-width: 80vw; margin: 0 auto; padding: 0 2vw 5vh 2vw; text-align: center;">
 
+<div class="project-animate-wrapper">
+
 <div style="margin-top: -7vh !important; padding: 0;">
 
 <div style="text-align: center; margin: 0; padding: 0;">
@@ -65,4 +85,4 @@ Above are collections of various projects related to Jenga blocks. These are fro
 {{< youtube_grid "iL8aUmd-bHg"="Tower Fall" "4CH6rJm7hnc"="Hyperventilation" "WggrtAHOCZs"="Slo Mo Jazz Hands" >}}
 </div>
 
-</div>
+</div> </div> 

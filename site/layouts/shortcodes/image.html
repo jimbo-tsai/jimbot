@@ -1,0 +1,67 @@
+{{ $align := .Get "align" | default "center" }}
+{{ $class := .Get "class" }}
+{{ $fetchpriority := .Get "fetchpriority" }}
+{{ $height := .Get "height" }}
+{{ $src := .Get 0 | default (.Get "src") | default (.Get "images") }}
+{{ $loading := .Get "loading" | default "lazy" }}
+{{ $maxheight := .Get "maxheight" }}
+{{ $maxwidth := .Get "maxwidth" }}
+{{ $process := .Get "process" }}
+{{ $style := .Get "style" }}
+{{ $width := .Get "width" }}
+
+{{ $resource := "" }}
+
+{{ if not $src }}
+    {{ errorf "layouts/shortcodes/image.html: missing image source path" }}
+{{ end }}
+
+{{/* Attempt to match asset from Page resources or global assets directory */}}
+{{ with $src }}
+    {{ with $.Page.Resources.GetMatch . }}
+        {{ $resource = . }}
+    {{ else }}
+        {{ $resource = resources.GetMatch . }}
+    {{ end }}
+{{ end }}
+
+{{/* Apply Hugo image processing command if specced */}}
+{{ if and $resource $process }}
+    {{ $resource = $resource.Process $process }}
+{{ end }}
+
+<style>
+    /* Scoped fade signature */
+    .paige-image-fade-container img {
+        opacity: 0;
+        transition: opacity 0.6s ease-in-out !important;
+    }
+    .paige-image-fade-container img.loaded {
+        opacity: 1;
+    }
+</style>
+
+<div class="paige-image-fade-container text-{{ $align }}" style="{{ with $maxwidth }}max-width: {{ . }};{{ end }} {{ with $maxheight }}max-height: {{ . }};{{ end }}">
+    {{ if $resource }}
+        <img src="{{ $resource.RelPermalink }}" 
+             class="{{ $class }}" 
+             width="{{ $width | default $resource.Width }}" 
+             height="{{ $height | default $resource.Height }}" 
+             loading="{{ $loading }}" 
+             {{ with $fetchpriority }}fetchpriority="{{ . }}"{{ end }}
+             style="{{ $style | safeCSS }}; height: auto; max-width: 100%;"
+             onload="this.classList.add('loaded')"
+             alt="{{ .Get "alt" | default $resource.Title | default "Image" }}">
+    {{ else }}
+        {{/* Fallback for external direct URI strings */}}
+        <img src="{{ $src | safeURL }}" 
+             class="{{ $class }}" 
+             {{ with $width }}width="{{ . }}"{{ end }}
+             {{ with $height }}height="{{ . }}"{{ end }}
+             loading="{{ $loading }}" 
+             {{ with $fetchpriority }}fetchpriority="{{ . }}"{{ end }}
+             style="{{ $style | safeCSS }}; height: auto; max-width: 100%;"
+             onload="this.classList.add('loaded')"
+             alt="{{ .Get "alt" | default "Image" }}">
+    {{ end }}
+</div>
