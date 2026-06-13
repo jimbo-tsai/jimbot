@@ -31,7 +31,13 @@ weight = 15
 identifier = "films"
 name = "Films"
 url = "/films/"
-weight = 20
+weight = 16
+
+[[languages.en.menu.main]]
+identifier = "projects"
+name = "Projects"
+url = "/projects/"
+weight = 17
 
 [[languages.en.menu.main]]
 identifier = "art"
